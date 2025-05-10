@@ -1,0 +1,63 @@
+# version: '3.9'
+
+# services:
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: multi-db-nodejs_express-with-typescript-app
+#     restart: always
+#     env_file: .env
+#     ports:
+#       - "5000:5000"
+#     depends_on:
+#       - mongodb
+#       - postgres
+#     networks:
+#       - backend
+
+#   mongodb:
+#     image: mongo:7.0
+#     container_name: mongo_container
+#     restart: always
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+#     networks:
+#       - backend
+#     environment:
+#       MONGO_INITDB_DATABASE: db_mongo
+#     healthcheck:
+#       test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+#   postgres:
+#     image: postgres:16
+#     container_name: postgres_container
+#     restart: always
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pg_data:/var/lib/postgresql/data
+#     networks:
+#       - backend
+#     environment:
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: ${POSTGRES_DB}
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+
+# volumes:
+#   mongo_data:
+#   pg_data:
+
+# networks:
+#   backend:
+#     driver: bridge

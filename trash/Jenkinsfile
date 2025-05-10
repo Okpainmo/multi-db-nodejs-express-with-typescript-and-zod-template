@@ -1,0 +1,153 @@
+pipeline {
+    // agent { 
+    //     docker {
+    //         label 'docker-nodejs-agent'
+    //     }
+    // }
+    agent any
+
+    environment {
+        TEMP_DIR = "/home/ubuntu/my-node-server@tmp"
+        LIVE_APP_DIR = "/home/ubuntu/zed-labs-platform-server"
+        SERVICE_NAME = "your-nodejs-server-service.service"
+        NVM_DIR = "/home/ubuntu/.nvm"
+        NODE_VERSION = "v22.12.0"
+    }
+
+    stages {
+        stage('Start') {
+            steps {
+                echo "[node-express-typescript-CI-CD] 🚀 Starting Jenkins job..."
+            }
+        }
+
+        // stage('Clean Workspace') {
+        //     steps {
+        //         cleanWs()
+        //         echo "[zed-labs] 🧹 Workspace cleaned."
+        //     } 
+        // }
+
+        stage('Checkout Code') {
+            steps {
+                dir("${env.WORKSPACE}") {
+                    echo "[node-express-typescript-CI-CD] 🔄 Pulling latest changes from GitHub..."
+                    script {
+                        def result = sh(script: 'git pull origin dev', returnStatus: true) // remember to specify the correct branch
+                        if (result != 0) {
+                            error("[node-express-typescript-CI-CD] ❌ Git pull failed.")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Sync Code to Live Folder') {
+            steps {
+                echo "[node-express-typescript-CI-CD] 📁 Syncing the pulled/updated project content to live Node.js app folder - excluding unnecessary project files..."
+                script {
+                    def result = sh(script: '''
+                        sudo rsync -av --delete \
+                          --exclude 'node_modules' \
+                          --exclude '.git' \
+                          "$WORKSPACE/" "$LIVE_APP_DIR/"
+                    ''', returnStatus: true)
+                    if (result != 0) {
+                        error("[node-express-typescript-CI-CD] ❌ rsync failed during code sync.")
+                    }
+                }
+                echo "[node-express-typescript-CI-CD] ✅ Code sync to $LIVE_APP_DIR completed."
+            }
+        }
+
+        // stage('Load NVM and Use Node') {
+        //     steps {
+        //         script {
+        //             sh '''
+        //                 export NVM_DIR="$NVM_DIR"
+        //                 [ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"
+        //                 nvm use $NODE_VERSION
+        //             '''
+        //         }
+        //     }
+        // }
+
+        stage('Install Dependencies') {
+            steps {
+                dir("${env.LIVE_APP_DIR}") {
+                    script {
+                        def result = sh(
+                            script: '''
+                                export NVM_DIR="/home/ubuntu/.nvm"
+                                [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" > /dev/null 2>&1
+                                nvm use v22.12.0 > /dev/null 2>&1  # Suppress nvm use output
+
+                                npm install > npm-install.log 2>&1
+                                exit $?
+                            ''',
+                            returnStatus: true
+                        )
+
+                        if (result != 0) {
+                            echo "❌ npm install failed. Showing last 50 lines of log:"
+                            sh 'tail -n 50 npm-install.log || echo "[log file missing]"'
+                            error("[node-express-typescript-CI-CD] npm install failed.")
+                        } else {
+                            echo "✅ Dependencies installed successfully. (output suppressed)"
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+        stage('Restart Service') {
+            steps {
+                echo "[node-express-typescript-CI-CD] 🔄 Restarting Node.js service..."
+                script {
+                    def restartResult = sh(script: "sudo systemctl restart $SERVICE_NAME", returnStatus: true)
+                    if (restartResult != 0) {
+                        error("[node-express-typescript-CI-CD] ❌ Failed to restart $SERVICE_NAME")
+                    }
+
+                    echo "[node-express-typescript-CI-CD] 🩺 Checking service status..."
+                    sh "sudo systemctl status $SERVICE_NAME --no-pager || true"
+                }
+            }
+        }
+    }
+    
+    //  post {
+    //     success {
+    //         echo "[node-express-typescript-CI-CD] ✅ Deployment and service restart complete!"
+
+    //         dir("$LIVE_APP_DIR") {
+    //             archiveArtifacts artifacts: "npm-install.log", onlyIfSuccessful: true
+    //         }
+    //     }
+    //     failure {
+    //         echo "[node-express-typescript-CI-CD] ❌ Build failed. Check logs above for details."
+
+    //         dir("$LIVE_APP_DIR") {
+    //             archiveArtifacts artifacts: "npm-install.log", onlyIfSuccessful: false
+    //         }
+    //     }
+    // }
+
+    // or
+
+    post {
+        success {
+            echo "[node-express-typescript-CI-CD] ✅ Deployment and service restart complete!"
+            sh "cp $LIVE_APP_DIR/npm-install.log $WORKSPACE/"
+            archiveArtifacts artifacts: "npm-install.log", onlyIfSuccessful: true
+        }
+        failure {
+            echo "[node-express-typescript-CI-CD] ❌ Build failed. Check logs above for details."
+            sh "cp $LIVE_APP_DIR/npm-install.log $WORKSPACE/ || true"
+            archiveArtifacts artifacts: "npm-install.log", onlyIfSuccessful: false
+        }
+    }
+}

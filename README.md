@@ -72,6 +72,10 @@ npm run dev
 # docker compose setup in progress...
 ```
 
+## Enforcing Coding(Contribution) Standards/Rules.
+
+...in progress.
+
 ## How To Select Your Preferred Database, and Fully Unplug the other.
 
 ...in progress.
@@ -81,5 +85,9 @@ npm run dev
 ...in progress.
 
 ## Writing Tests.
+
+...in progress.
+
+## CI/CD Support With Jenkins.
 
 ...in progress.

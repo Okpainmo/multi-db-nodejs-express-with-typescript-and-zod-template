@@ -5,13 +5,14 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import log from './utils/logger.js';
+import { URL } from 'url';
 
 // import express types
 import type { Request, Response } from 'express';
 
 // MongoDb import
 import connectMongoDb from './db/connect-mongodb.js';
-// import connectPostgres from './db/connect-postgres.js';
+import connectPostgres from './db/connect-postgres.js';
 
 // dependency inits
 const app = express();
@@ -37,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'staging') {
-  dotenv.config({ path: '.env.stage' });
+  dotenv.config({ path: '.env.staging' });
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -65,21 +66,23 @@ const start = async () => {
   try {
     log.info(`Establishing database connection...`);
     const mongoDbConnection = await connectMongoDb(mongoDb_URI);
+    await connectPostgres();
 
     mongoDbConnection &&
       log.info(
-        `...................................\nConnected to: ${mongoDbConnection?.connection.host}
+        `...................................\nConnected to: ${mongoDbConnection?.connection.host}\nEnvironment: ${process.env.NODE_ENV}
         \nMongoDB connected successfully \n........................................................`
       );
 
-    // await connectPostgres();
-    // log.info(
-    //   `...................................\nConnected to: ${process.env.POSTGRES_DATABASE_NAME}
-    //     \nPostgreSQL connected successfully \n........................................................`
-    // );
+    const parsedUrl = new URL(process.env.POSTGRES_DATABASE_URL as string);
+
+    log.info(
+      `...................................\nConnected to: ${parsedUrl.hostname}\nEnvironment: ${process.env.NODE_ENV}
+        \nPostgreSQL connected successfully \n........................................................`
+    );
 
     // console.log(process.env.JWT_SECRET);
-    app.listen(port, () => log.info(`Server is listening on port ${port}.`));
+    app.listen(port, () => log.info(`Server is listening on port ${port}...`));
   } catch (error) {
     if (error instanceof Error) {
       log.error(error.message);

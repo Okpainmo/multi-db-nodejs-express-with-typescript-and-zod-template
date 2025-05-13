@@ -1,0 +1,44 @@
+services:
+  # PostgreSQL for Development
+  postgres_dev:
+    image: postgres
+    container_name: multi_db_nodejs_express_with_typescript_template__postgres_dev
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: your-user-name
+      POSTGRES_PASSWORD: your-password
+      POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_dev
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+
+  # PostgreSQL for Staging (for local testing only. Recommendation: Use a managed postgres service for staging and prod)  
+  postgres_staging:
+    image: postgres
+    container_name: multi_db_nodejs_express_with_typescript_template__postgres_staging
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: your-user-name
+      POSTGRES_PASSWORD: your-password
+      POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_staging
+    volumes:
+      - pgdata_staging:/var/lib/postgresql/data
+
+  # PostgreSQL for Production (for local testing only. Recommendation: Use a managed postgres service for staging and prod)
+  postgres_prod:
+    image: postgres
+    container_name: multi_db_nodejs_express_with_typescript_template__postgres_prod
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: your-user-name
+      POSTGRES_PASSWORD: your-password
+      POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_prod
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+
+volumes:
+  pgdata_dev:
+  pgdata_staging:
+  pgdata_prod:

@@ -1,0 +1,44 @@
+services:
+  # MongoDB for Development
+  mongodb_dev:
+    image: mongodb/mongodb-community-server:latest
+    container_name: multi_db_nodejs_express_with_typescript_template__mongo_dev
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your-user-name
+      MONGO_INITDB_ROOT_PASSWORD: your-password
+      MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_dev
+    volumes:
+      - mongo_data_dev:/data/db
+
+  # MongoDB for Staging
+  mongodb_staging:
+    image: mongodb/mongodb-community-server:latest
+    container_name: multi_db_nodejs_express_with_typescript_template__mongo_staging
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your-user-name
+      MONGO_INITDB_ROOT_PASSWORD: your-password
+      MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_staging
+    volumes:
+      - mongo_data_staging:/data/db
+
+  # MongoDB for Production
+  mongodb_prod:
+    image: mongodb/mongodb-community-server:latest
+    container_name: multi_db_nodejs_express_with_typescript_template__mongo_prod
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: your-user-name
+      MONGO_INITDB_ROOT_PASSWORD: your-password
+      MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_prod
+    volumes:
+      - mongo_data_prod:/data/db
+
+volumes:
+  mongo_data_dev:
+  mongo_data_staging:
+  mongo_data_prod:

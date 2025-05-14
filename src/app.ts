@@ -8,7 +8,7 @@ import log from './utils/logger.js';
 import { URL } from 'url';
 
 // import express types
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 
 // MongoDb import
 import connectMongoDb from './db/connect-mongodb.js';
@@ -45,8 +45,8 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: '.env.production' });
 }
 
-// @ts-ignore
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (res: Response) => {
+  // app.get('/', (req: Request, res: Response) => {
   res.status(200).send({
     // // responseMessage: 'Welcome to the Web3 Mastery API server',
     response: {
@@ -66,14 +66,15 @@ const start = async () => {
   try {
     log.info(`Establishing database connection...`);
     const mongoDbConnection = await connectMongoDb(mongoDb_URI);
-    await connectPostgres();
 
-    mongoDbConnection &&
+    if (mongoDbConnection) {
       log.info(
         `...................................\nConnected to: ${mongoDbConnection?.connection.host}\nEnvironment: ${process.env.NODE_ENV}
-        \nMongoDB connected successfully \n........................................................`
+      \nMongoDB connected successfully \n........................................................`
       );
+    }
 
+    await connectPostgres();
     const parsedUrl = new URL(process.env.POSTGRES_DATABASE_URL as string);
 
     log.info(

@@ -1,2 +1,1 @@
-# main docker-compose - update using `docker-compose.template.yaml` as a guide
-
+# Main docker-compose file. update using either `docker-compose.mongo.template.yaml` or `docker-compose.postgres.template.yaml` as a guide

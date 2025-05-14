@@ -4,7 +4,9 @@ services:
     image: postgres
     container_name: multi_db_nodejs_express_with_typescript_template__postgres_dev
     ports:
-      - "5433:5432"
+      - '5433:5432'
+    networks:
+      - backend_net
     environment:
       POSTGRES_USER: your-user-name
       POSTGRES_PASSWORD: your-password
@@ -12,12 +14,14 @@ services:
     volumes:
       - pgdata_dev:/var/lib/postgresql/data
 
-  # PostgreSQL for Staging (for local testing only. Recommendation: Use a managed postgres service for staging and prod)  
+  # PostgreSQL for Staging (for local testing only. Recommendation: Use a managed postgres service for staging and prod)
   postgres_staging:
     image: postgres
     container_name: multi_db_nodejs_express_with_typescript_template__postgres_staging
     ports:
-      - "5434:5432"
+      - '5434:5432'
+    networks:
+      - backend_net
     environment:
       POSTGRES_USER: your-user-name
       POSTGRES_PASSWORD: your-password
@@ -30,7 +34,9 @@ services:
     image: postgres
     container_name: multi_db_nodejs_express_with_typescript_template__postgres_prod
     ports:
-      - "5435:5432"
+      - '5435:5432'
+    networks:
+      - backend_net
     environment:
       POSTGRES_USER: your-user-name
       POSTGRES_PASSWORD: your-password
@@ -38,7 +44,32 @@ services:
     volumes:
       - pgdata_prod:/var/lib/postgresql/data
 
+  # Main Node.js/Express Application
+  # app_server:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: multi_db_nodejs_express_with_typescript_template__app
+  #   ports:
+  #     - "5000:5000"
+  #   depends_on:
+  #     - postgres_dev
+  #     - postgres_staging
+  #     - postgres_prod
+  #   environment:
+  #     POSTGRES_DEV_URI: postgres://your-user-name:your-password@postgres_dev:5432/multi_db_nodejs_express_with_typescript_template__db_dev
+  #     POSTGRES_STAGING_URI: postgres://your-user-name:your-password@postgres_staging:5432/multi_db_nodejs_express_with_typescript_template__db_staging
+  #     POSTGRES_PROD_URI: postgres://your-user-name:your-password@postgres_prod:5432/multi_db_nodejs_express_with_typescript_template__db_prod
+  #   volumes:
+  #     - .:/app
+  #   working_dir: /app
+  #   command: npm run dev # or your actual start command
+
 volumes:
   pgdata_dev:
   pgdata_staging:
   pgdata_prod:
+
+networks:
+  backend_net:
+    driver: bridge

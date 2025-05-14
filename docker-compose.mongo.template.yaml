@@ -4,7 +4,9 @@ services:
     image: mongodb/mongodb-community-server:latest
     container_name: multi_db_nodejs_express_with_typescript_template__mongo_dev
     ports:
-      - "27017:27017"
+      - '27017:27017'
+    networks:
+      - backend_net
     environment:
       MONGO_INITDB_ROOT_USERNAME: your-user-name
       MONGO_INITDB_ROOT_PASSWORD: your-password
@@ -17,7 +19,9 @@ services:
     image: mongodb/mongodb-community-server:latest
     container_name: multi_db_nodejs_express_with_typescript_template__mongo_staging
     ports:
-      - "27018:27017"
+      - '27018:27017'
+    networks:
+      - backend_net
     environment:
       MONGO_INITDB_ROOT_USERNAME: your-user-name
       MONGO_INITDB_ROOT_PASSWORD: your-password
@@ -30,7 +34,9 @@ services:
     image: mongodb/mongodb-community-server:latest
     container_name: multi_db_nodejs_express_with_typescript_template__mongo_prod
     ports:
-      - "27019:27017"
+      - '27019:27017'
+    networks:
+      - backend_net
     environment:
       MONGO_INITDB_ROOT_USERNAME: your-user-name
       MONGO_INITDB_ROOT_PASSWORD: your-password
@@ -38,7 +44,33 @@ services:
     volumes:
       - mongo_data_prod:/data/db
 
+  # Main Node.js/Express Application
+  # app_server:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: multi_db_nodejs_express_with_typescript_template__app
+  #   ports:
+  #     - "5000:5000"
+  #   depends_on:
+  #     - mongodb_dev
+  #     - mongodb_staging
+  #     - mongodb_prod
+  #   environment:
+  #     # These should match how your app reads env vars
+  #     MONGO_DEV_URI: mongodb://your-user-name:your-password@mongodb_dev:27017/multi_db_nodejs_express_with_typescript_template__db_dev
+  #     MONGO_STAGING_URI: mongodb://your-user-name:your-password@mongodb_staging:27017/multi_db_nodejs_express_with_typescript_template__db_staging
+  #     MONGO_PROD_URI: mongodb://your-user-name:your-password@mongodb_prod:27017/multi_db_nodejs_express_with_typescript_template__db_prod
+  #   volumes:
+  #     - .:/app
+  #   working_dir: /app
+  #   command: npm run dev # or whatever your dev/start script is
+
 volumes:
   mongo_data_dev:
   mongo_data_staging:
   mongo_data_prod:
+
+networks:
+  backend_net:
+    driver: bridge

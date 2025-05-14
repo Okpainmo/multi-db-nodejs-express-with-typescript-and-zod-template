@@ -19,7 +19,18 @@ I created this with so much love(❤️) for myself, and engineering teams I lea
 > As per working environments, the template supports 3 different environments(development/dev, staging, and production/prod).
 >
 > **This gives you the massive flexibility of being able to test any of the working environments locally with so much ease.**
+
+### Environment Variables
+
+> The project has 4(four) environmental variable files(which are all intentionally un-ignored), to help you easily understand how the template's environmental variables setup works. **Endeavour to git-ignore them immediately you start a project**.
 >
+> 1. `.env` - the CORE/CENTRAL environment variable file that helps with selecting your preferred working environment.
+> 2. `.env.development` - environmental variables file for the dev/development environment.
+> 3. `.env.staging` - environmental variables file for the staging environment.
+> 4. `.env.production` - environmental variables file for the prod/production environment.
+
+### Switching Between Working Environments.
+
 > Switching to a different environment is easy: **simply head to the CORE environment file(`.env`), and select your preferred environment by uncommenting it and commenting the others. Once that is done, the project should automatically switch to the selected environment**.
 
 I.e.
@@ -48,15 +59,6 @@ NODE_ENV="development"
 
 # ...code after
 ```
-
-### Environment Variables
-
-> The project has 4(four) environmental variable files(which are all intentionally un-ignored), to help you easily understand how the template's environmental variables setup works. **Endeavour to git-ignore them immediately you start a project**.
->
-> 1. `.env` - the CORE/CENTRAL environment variable file that helps with selecting your preferred working environment.
-> 2. `.env.development` - environmental variables file for the dev/development environment.
-> 3. `.env.staging` - environmental variables file for the staging environment.
-> 4. `.env.production` - environmental variables file for the prod/production environment.
 
 ## How To Use.
 

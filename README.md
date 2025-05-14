@@ -49,8 +49,6 @@ NODE_ENV="development"
 # ...code after
 ```
 
-**Even though this might not be necessary, I guess it would be a good idea to restart the server anytime you switch working environments**.
-
 ### Environment Variables
 
 > The project has 4(four) environmental variable files(which are all intentionally un-ignored), to help you easily understand how the template's environmental variables setup works. **Endeavour to git-ignore them immediately you start a project**.
@@ -88,7 +86,7 @@ npm install
 npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose nodemailer pino zod @prisma/client
 
 # dev-dependencies
-npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky --save-dev
+npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky @commitlint/cli @commitlint/config-conventional --save-dev
 ```
 
 2. Pull in the mongodb and postgresql docker images

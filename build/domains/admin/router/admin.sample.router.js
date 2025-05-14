@@ -1,0 +1,2 @@
+export {};
+// sample domain router

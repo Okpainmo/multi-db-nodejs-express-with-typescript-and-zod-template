@@ -72,7 +72,7 @@ git clone your-project-url
 cd your-project-name
 ```
 
-2. Proceed to install all dependencies and dev-dependencies.
+2a. Proceed to install all dependencies and dev-dependencies.
 
 **with current project versions**:
 
@@ -91,7 +91,7 @@ npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose node
 npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky @commitlint/cli @commitlint/config-conventional --save-dev
 ```
 
-2. Pull in the mongodb and postgresql docker images
+2b. Pull in the mongodb and postgresql docker images
 
 ```bash
 docker pull mongodb/mongodb-community-server # mongodb
@@ -144,19 +144,19 @@ E.g.
 ```bash
 # for dev:
 
-docker run --name multi_db_nodejs_express_with_typescript_template__mongo_dev -p 2701x:27017 -d mongodb/mongodb-community-server:latest
+docker run --name multi_db_nodejs_express_with_typescript_template__mongo_dev -p 27017:27017 -d mongodb/mongodb-community-server:latest
 ```
 
 ```bash
 # for staging:
 
-docker run --name multi_db_nodejs_express_with_typescript_template__mongo_staging -p 2701x:27017 -d mongodb/mongodb-community-server:latest
+docker run --name multi_db_nodejs_express_with_typescript_template__mongo_staging -p 27018:27017 -d mongodb/mongodb-community-server:latest
 ```
 
 ```bash
 # for prod:
 
-docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -p 2701x:27017 -d mongodb/mongodb-community-server:latest
+docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -p 27019:27017 -d mongodb/mongodb-community-server:latest
 ```
 
 > P.S: starting docker postgres and mongodb instances for `staging` and `prod` may not be necessary since you would want to use real(remotely provisioned) databases for those.
@@ -171,7 +171,7 @@ CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A S
 
 ## Prisma-specific Guides.
 
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, and would not know if to use a different(custom) environment variables file - as it actually should. Since this template maintains a decentralized/modular working environment(environmental variables) structure. The `dotenv-cli` package(a package that should already be installed at the project setup stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular working environment(environmental variables) structure. The `dotenv-cli` package(a package that should already be installed at the project dependency installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
 
 Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
 
@@ -181,7 +181,7 @@ npx dotenv -e .env.development -- npx prisma migrate dev --name init
 
 ## Building The Template With Docker.
 
-The template comes with a pre-configured `Dockerfile`, and a `.dockerignore`. With these, building the template into a Docker image becomes as easy as running the command below.
+The template comes with a pre-configured `Dockerfile`, and a `.dockerignore`. With these, building the it into a Docker image becomes as easy as running the command below.
 
 ```bash
 docker build -t your-project-name .
@@ -193,9 +193,9 @@ E.g.
 docker build -t multi_db_nodejs_express_with_typescript_template__docker .
 ```
 
-> Instead of building the app/server directly with Docker(or making local installations and starting it manually - i.e. if you wish to make contributions), while still separately building and setting up the databases with docker-compose, you can set-up the docker-compose configuration to build the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute. **Ensure to use separate ports for the app/server running on docker, and the one running locally on your machine, so as to avoid conflicts**.
+> Instead of building the app/server directly with Docker(or making local installations and starting it manually - i.e. if you wish to make contributions), while still separately setting up the databases with docker-compose, you can set-up the docker-compose configuration to build the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute. **Ensure to use separate ports for the app/server running on docker, and the one running locally on your machine, so as to avoid conflicts**.
 
-**I RECOMMEND BUILDING THE PROJECT IMAGE, THEN CREATING A SINGLE DOCKER-COMPOSE FILE TO START EVERYTHING ALL AT ONCE WITH ONE SINGLE COMMAND. SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
+**I RECOMMEND SETTING UP DOCKER-COMPOSE TO BUILD THE PROJECT IMAGE, AND START EVERYTHING - ALL AT ONCE WITH A SINGLE COMMAND. SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
 
 ```bash
 docker compose up -d
@@ -277,7 +277,7 @@ To run Lint-stages manually on currently staged files, use the command below:
 npx lint-staged
 ```
 
-> P.S: You do not need to run the `lint-staged` command manually. If you follow all instructions, and set up the template correctly, a pre-commit task would be automatically triggered, whenever you try to make any code commit to Github, thereby - linting and formatting your code automatically, while also ensuring commit standards.
+> P.S: You do not need to run the `lint-staged` command manually. If you follow all instructions, and set up the template correctly, a pre-commit task would be automatically triggered - whenever you try to make any code commit to Github, thereby - linting and formatting your code automatically, while also ensuring commit standards.
 >
 > All Lint-staged configurations can be found inside the `.lintstagedrc.json` file.
 

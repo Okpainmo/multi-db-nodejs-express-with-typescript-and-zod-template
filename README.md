@@ -1,12 +1,12 @@
 # multi-db-nodejs-express-with-typescript-and-zod-template.
 
-This beautiful template, is a highly flexible and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template. 
+This beautiful template, is a highly flexible and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template.
 
 > In a way, it honestly feels like a crime to me, for anyone to still go about building systems with vanilla Javascript. This template is **fully typed 💪**.
 
-> It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL - for now). 
+> It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL - for now).
 
-**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. This README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.** 
+**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. This README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
 
 **Also, To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM**
 
@@ -17,10 +17,10 @@ I created this with so much love(❤️) for myself, and engineering teams I lea
 ## Working Environment Support.
 
 > As per working environments, the template supports 3 different environments(development/dev, staging, and production/prod).
-> 
+>
 > **This gives you the massive flexibility of being able to test any of the working environments locally with so much ease.**
 >
-> **Switching to a different environment is easy: **simply head to the CORE environment file(`.env`), and select your preferred environment by uncommenting it and commenting the others. Once that is done, the project should automatically switch to the selected environment**.
+> Switching to a different environment is easy: **simply head to the CORE environment file(`.env`), and select your preferred environment by uncommenting it and commenting the others. Once that is done, the project should automatically switch to the selected environment**.
 
 I.e.
 
@@ -28,12 +28,12 @@ I.e.
 # ...code before
 
 # =========================================================================================================
-# The template comes with 4 '.env' files. The main one(`.env) is a core/central environment selection file. All 
+# The template comes with 4 '.env' files. The main one(`.env) is a core/central environment selection file. All
 # it does is to help you select your preferred working environment from one of 'development', 'staging', and 'production'.
 #
-# All the others are for the three main environments(development, staging, and production) that is assumed you'll 
+# All the others are for the three main environments(development, staging, and production) that is assumed you'll
 # be working from. This gives you the flexibility to test any of the environments locally with much ease.
-# 
+#
 # Simply un-comment the line for your preferred working/testing environment, and you'll be right on it.
 #
 # The project has been pre-configured(see `src -> app.ts`) to select one from the 3 .env files based on the
@@ -78,7 +78,7 @@ cd your-project-name
 
 ```bash
 
-npm install 
+npm install
 ```
 
 **or, with new version installations(ensure to delete the `package.json` and `package-lock.json` files first)**:
@@ -88,7 +88,7 @@ npm install
 npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose nodemailer pino zod @prisma/client
 
 # dev-dependencies
-npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli --save-dev
+npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky --save-dev
 ```
 
 2. Pull in the mongodb and postgresql docker images
@@ -110,7 +110,8 @@ docker pull postgres # postgres
 
 docker run -d --name container-name -p 543x:5432 -e POSTGRES_USER=your-user-name -e POSTGRES_PASSWORD=your-password -e POSTGRES_DB=database-name postgres
 ```
-E.g. 
+
+E.g.
 
 ```bash
 # for dev:
@@ -137,7 +138,8 @@ docker run -d --name multi_db_nodejs_express_with_typescript_template__postgres_
 
 docker run --name container-name -p 2701x:27017 -d mongodb/mongodb-community-server:latest
 ```
-E.g. 
+
+E.g.
 
 ```bash
 # for dev:
@@ -165,11 +167,11 @@ docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -
 docker compose up -d
 ```
 
-CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A SIMILAR E.G MONGODBCOMPASS FOR MONGODB), TO VIEW THEM.
+CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A SIMILAR, E.G MONGODBCOMPASS - FOR MONGODB), TO VIEW THEM.
 
 ## Prisma-specific Guides.
 
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, and would not know if to use a different(custom) environment variables file - as it actually should. Since this template maintains a decentralized/modular working environment structure. The `dotenv-cli` package(a package that should already be installed at the project setup stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, and would not know if to use a different(custom) environment variables file - as it actually should. Since this template maintains a decentralized/modular working environment(environmental variables) structure. The `dotenv-cli` package(a package that should already be installed at the project setup stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
 
 Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
 
@@ -179,17 +181,111 @@ npx dotenv -e .env.development -- npx prisma migrate dev --name init
 
 ## Building The Template With Docker.
 
-...in progress.
+The template comes with a pre-configured `Dockerfile`, and a `.dockerignore`. With these, building the template into a Docker image becomes as easy as running the command below.
 
-## How To Select Your Preferred Database, and Fully Unplug the other.
+```bash
+docker build -t your-project-name .
+```
 
-...in progress.
+E.g.
+
+```bash
+docker build -t multi_db_nodejs_express_with_typescript_template__docker .
+```
+
+> Instead of building the app/server directly with Docker(or making local installations and starting it manually - i.e. if you wish to make contributions), while still separately building and setting up the databases with docker-compose, you can set-up the docker-compose configuration to build the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute. **Ensure to use separate ports for the app/server running on docker, and the one running locally on your machine, so as to avoid conflicts**.
+
+**I RECOMMEND BUILDING THE PROJECT IMAGE, THEN CREATING A SINGLE DOCKER-COMPOSE FILE TO START EVERYTHING ALL AT ONCE WITH ONE SINGLE COMMAND. SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
+
+```bash
+docker compose up -d
+```
+
+Below are some sample Docker commands to manually start a container that is running the image.
+
+**P.S: The below commands, are quite a combination. They assume that your databases are running on a docker network called - `multi-db-nodejs-express-with-typescript-and-zod-template_backend_net`. They also require an understanding of Docker networking, and what happens when you're trying to connect a stand-alone docker container to database instances that are running inside other docker containers.**.
+
+```bash
+# dev
+
+docker run -d \
+  --env-file .env.development \
+  -p 5001:5000 \
+  --name multi_db_nodejs_express_with_typescript_template__docker_dev \
+  --network multi-db-nodejs-express-with-typescript-and-zod-template_backend_net \
+  -e MONGO_DB_URI="mongodb://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__mongo_dev:27017/multi_db_nodejs_express_with_typescript_template__db_dev?authSource=admin" \
+  -e POSTGRES_DATABASE_URL="postgresql://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__postgres_dev:5432/multi_db_nodejs_express_with_typescript_template__db_dev?schema=public" \
+  multi_db_nodejs_express_with_typescript_template__docker
+```
+
+```bash
+# staging
+
+docker run -d \
+  --env-file .env.staging \
+  -p 5002:5000 \
+  --name multi_db_nodejs_express_with_typescript_template__docker_staging \
+  --network multi-db-nodejs-express-with-typescript-and-zod-template_backend_net \
+  -e MONGO_DB_URI="mongodb://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__mongo_staging:27017/multi_db_nodejs_express_with_typescript_template__db_staging?authSource=admin" \
+  -e POSTGRES_DATABASE_URL="postgresql://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__postgres_staging:5432/multi_db_nodejs_express_with_typescript_template__db_staging?schema=public" \
+  multi_db_nodejs_express_with_typescript_template__docker
+```
+
+```bash
+# prod
+
+docker run -d \
+  --env-file .env.production \
+  -p 5003:5000 \
+  --name multi_db_nodejs_express_with_typescript_template__docker_prod \
+  --network multi-db-nodejs-express-with-typescript-and-zod-template_backend_net \
+  -e MONGO_DB_URI="mongodb://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__mongo_prod:27017/multi_db_nodejs_express_with_typescript_template__db_prod?authSource=admin" \
+  -e POSTGRES_DATABASE_URL="postgresql://your-user-name:your-password@multi_db_nodejs_express_with_typescript_template__postgres_prod:5432/multi_db_nodejs_express_with_typescript_template__db_prod?schema=public" \
+  multi_db_nodejs_express_with_typescript_template__docker
+```
 
 ## Enforcing Coding(Contribution) Standards/Rules.
 
-...in progress.
+This template is built to support the best industry standards available. Hence enforcing code quality
+was a core focus.
+
+1. For linting, **ESlint** is used. See `eslint.config.mjs` for all the ESlint configurations.
+
+To lint your project manually, simply run the below command:
+
+```bash
+npx eslint .
+```
+
+2. For code formatting, **Prettier** was used. See `.prettierrc` and `.prettierignore`, for all the Prettier configurations.
+
+To format your project manually, simply run the below command:
+
+```bash
+npx prettier . --write
+```
+
+3. As can be seen so far(if left that way), linting and code-formatting would be manual, hence collaborating developers can easily forget to run the necessary checks before pushing their contributions to Github.
+
+To solve that issue and more, **Lint-staged**, **Commitlint**, and **Husky** were used.
+
+Lint-staged with the help of Husky, enforces automatic Prettier formatting and ESlint linting respectively - **on staged files**. While Commitlint with the help of Husky, helps to enforce rules on commit messages - ensuring that collaborating team members write proper commits.
+
+To run Lint-stages manually on currently staged files, use the command below:
+
+```bash
+npx lint-staged
+```
+
+> P.S: You do not need to run the `lint-staged` command manually. If you follow all instructions, and set up the template correctly, a pre-commit task would be automatically triggered, whenever you try to make any code commit to Github, thereby - linting and formatting your code automatically, while also ensuring commit standards.
+>
+> All Lint-staged configurations can be found inside the `.lintstagedrc.json` file.
 
 ## Sample End-points.
+
+...in progress.
+
+## How To Select Your Preferred Database, and Fully Unplug the other.
 
 ...in progress.
 

@@ -4,13 +4,14 @@
   "description": "A fully-typed backend(NodeJs) project server template",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
+    "start": "npx prisma generate && node app.js",
     "start-build": "node ./build/app.js",
     "dev": "tsc --noEmit && tsx watch ./src/app.ts",
     "build": "tsc",
     "lint": "npx eslint .",
     "lint-staged": "npx lint-staged",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "prepare": "npx husky init"
   },
   "dependencies": {
     "@prisma/client": "^6.7.0",
@@ -27,16 +28,21 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.26.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.17",
     "@types/nodemailer": "^6.4.17",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.0",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
+    "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.5.3",

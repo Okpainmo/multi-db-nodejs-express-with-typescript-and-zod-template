@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# node-modules
 /node_modules
 
 # testing
@@ -32,3 +32,7 @@ yarn-error.log*
 
 # prima
 /generated
+
+# npm
+package.json
+package-lock.json

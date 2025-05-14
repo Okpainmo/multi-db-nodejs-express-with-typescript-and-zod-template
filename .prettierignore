@@ -36,3 +36,4 @@ yarn-error.log*
 # npm
 package.json
 package-lock.json
+trash

@@ -60,7 +60,7 @@ NODE_ENV="development"
 # ...code after
 ```
 
-## How To Use.
+## How To Use This Template.
 
 1a. Using this template is simple. The main criteria being that you know how to use typescript, and that you have Docker installed on your machine.
 

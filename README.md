@@ -4,7 +4,7 @@ This beautiful template, is a highly flexible and domain-driven-development(DDD)
 
 > In a way, it honestly feels like a crime to me, for anyone to still go about building systems with vanilla Javascript. This template is **fully typed 💪**.
 
-> It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL - for now).
+It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL).
 
 **To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. This README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
 
@@ -85,7 +85,7 @@ npm install
 
 ```bash
 # dependencies
-npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose nodemailer pino zod @prisma/client
+npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose nodemailer pino zod @prisma/client mongodb bcrypt @types/bcrypt
 
 # dev-dependencies
 npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky @commitlint/cli @commitlint/config-conventional --save-dev
@@ -161,7 +161,7 @@ docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -
 
 > P.S: starting docker postgres and mongodb instances for `staging` and `prod` may not be necessary since you would want to use real(remotely provisioned) databases for those.
 
-**Option 2: update the `docker-compose.yaml` file on the project's root - using either `docker-compose.postgres.template.yaml` or `docker-compose.mongo.template.yaml` as a guide(depending on the database type you wish to use). Then start all the databases at once**.
+**Option 2: update the `docker-compose.yaml` file on the project's root - using either the `docker-compose.postgres.template.yaml` or the `docker-compose.mongo.template.yaml` file(also available on the project root directory) as a guide - depending on the database type you wish to use. Then start all the databases at once**.
 
 ```bash
 docker compose up -d
@@ -171,12 +171,18 @@ CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A S
 
 ## Prisma-specific Guides.
 
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular working environment(environmental variables) structure. The `dotenv-cli` package(a package that should already be installed at the project dependency installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependency installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
 
 Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
 
 ```bash
 npx dotenv -e .env.development -- npx prisma migrate dev --name init
+```
+
+And this for regenerating the Prisma client.
+
+```bash
+npx dotenv -e .env.development -- npx prisma generate
 ```
 
 ## Building The Template With Docker.
@@ -285,7 +291,7 @@ npx lint-staged
 
 ...in progress.
 
-## How To Select Your Preferred Database, and Fully Unplug the other.
+## Writing Tests.
 
 ...in progress.
 
@@ -297,7 +303,7 @@ npx lint-staged
 
 ...in progress.
 
-## Writing Tests.
+## How To Select Your Preferred Database, and Fully Unplug the other.
 
 ...in progress.
 

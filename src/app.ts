@@ -1,18 +1,21 @@
 // dependency imports
 
 import express from 'express';
+import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import log from './utils/logger.js';
 import { URL } from 'url';
 
-// import express types
-import type { Response } from 'express';
-
-// MongoDb import
+// DB imports
 import connectMongoDb from './db/connect-mongodb.js';
 import connectPostgres from './db/connect-postgres.js';
+
+// routes imports
+import userRouter from './domains/user/router/user.router.js';
+import authRouter from './domains/auth/router/auth.router.js';
+import adminRouter from './domains/admin/router/admin.router.js';
 
 // dependency inits
 const app = express();
@@ -45,10 +48,9 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: '.env.production' });
 }
 
-app.get('/', (res: Response) => {
-  // app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.status(200).send({
-    // // responseMessage: 'Welcome to the Web3 Mastery API server',
+    responseMessage: 'Welcome to the Multi DB Node/Express... server',
     response: {
       apiStatus: 'OK - Server is live'
     }
@@ -56,7 +58,9 @@ app.get('/', (res: Response) => {
 });
 
 // user end-points - all routed
-// app.use(`/api/v1/user-contact-form`, userContactFormRouter);
+app.use(`/api/v1/user`, userRouter);
+app.use(`/api/v1/auth`, authRouter);
+app.use(`/api/v1/admin`, adminRouter);
 
 const port = process.env.PORT || 5000;
 

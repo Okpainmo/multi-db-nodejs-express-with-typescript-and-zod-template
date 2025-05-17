@@ -4,11 +4,6 @@ import type { UserSpecs } from '../schema/user.schema.js';
 // Define Mongoose Schema
 const userSchema = new mongoose.Schema<UserSpecs>(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true
-    },
     name: {
       type: String,
       required: true,

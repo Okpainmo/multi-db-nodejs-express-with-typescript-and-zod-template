@@ -161,7 +161,7 @@ docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -
 
 > P.S: starting docker postgres and mongodb instances for `staging` and `prod` may not be necessary since you would want to use real(remotely provisioned) databases for those.
 
-**Option 2: update the `docker-compose.yaml` file on the project's root - using either the `docker-compose.postgres.template.yaml` or the `docker-compose.mongo.template.yaml` file(also available on the project root directory) as a guide - depending on the database type you wish to use. Then start all the databases at once**.
+**Option 2: update the `docker-compose.yaml` file on the project's root - using either the `docker-compose.postgres.template.yaml` or the `docker-compose.mongo.template.yaml` file(that are also available on the project root directory) as a guide - depending on the database type you wish to use. Then start all the databases at once**.
 
 ```bash
 docker compose up -d

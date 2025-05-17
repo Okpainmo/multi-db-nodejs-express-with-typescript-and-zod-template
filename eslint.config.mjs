@@ -71,7 +71,10 @@ export default [
       'no-unused-vars': 'off',
       camelcase: 'off',
       'no-param-reassign': 'off',
-      'no-undef': 'off'
+      'no-undef': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off'
+      // '@typescript-eslint/no-unused-expressions': 'off'
     }
   }
 ];

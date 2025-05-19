@@ -18,3 +18,39 @@ export const errorHandler__500 = (error: any, res: Response) => {
     });
   }
 };
+
+export const errorHandler__403 = (errorMessage: any, res: Response) => {
+  log.error(`Forbidden Error: ${errorMessage}`);
+
+  res.status(403).json({
+    responseMessage: errorMessage,
+    error: 'FORBIDDEN'
+  });
+};
+
+export const errorHandler__401 = (errorMessage: any, res: Response) => {
+  log.error(`Unauthorized Error: ${errorMessage}`);
+
+  res.status(401).json({
+    responseMessage: errorMessage,
+    error: 'UNAUTHORIZED'
+  });
+};
+
+export const errorHandler__404 = (errorMessage: any, res: Response) => {
+  log.error(`Not Found Error: ${errorMessage}`);
+
+  res.status(404).json({
+    responseMessage: errorMessage,
+    error: 'NOT FOUND'
+  });
+};
+
+export const errorHandler__400 = (errorMessage: any, res: Response) => {
+  log.error(`Bad Request Error: ${errorMessage}`);
+
+  res.status(404).json({
+    responseMessage: errorMessage,
+    error: 'BAD REQUEST'
+  });
+};

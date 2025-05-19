@@ -2,11 +2,14 @@
 import { Router } from 'express';
 // import { registerUser } from '../controllers/auth.registerUser.controller.js';
 import { validateData } from '../../../middlewares/validateData.middleware.js';
-import { userSchema } from '../../user/schema/user.schema.js';
 import { deactivateUser } from '../controllers/admin.deactivateUser.controller.js';
 import { ObjectId } from 'mongodb';
 import * as z from 'zod';
+// import { userSchema } from '../../user/schema/user.schema.js';
 import log from '../../../utils/logger.js';
+import { userSchema } from '../../user/schema/user.schema.js';
+import accessMiddleware from '../../../middlewares/auth.access.middleware.js';
+import sessionsMiddleware from '../../../middlewares/auth.sessions.middleware.js';
 
 export const mongoParamsSchema = z.object({
   userId: z
@@ -70,6 +73,12 @@ export type CombinedParamsSpecs = z.infer<typeof combinedParamsSchema>;
 
 const router = Router();
 
-router.patch('/profile/:userId', validateData({ params: combinedParamsSchema, body: userSchema }), deactivateUser);
+router.patch(
+  '/profile/:userId',
+  validateData({ params: combinedParamsSchema, body: userSchema }),
+  sessionsMiddleware,
+  accessMiddleware,
+  deactivateUser
+);
 
 export default router;

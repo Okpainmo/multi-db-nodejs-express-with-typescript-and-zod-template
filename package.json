@@ -11,7 +11,8 @@
     "lint": "npx eslint .",
     "lint-staged": "npx lint-staged",
     "format": "npx prettier . --write",
-    "prepare": "npx husky init"
+    "prepare": "husky",
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.7.0",

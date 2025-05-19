@@ -30,7 +30,9 @@ export const userSchema = z.object({
   isAdmin: z.boolean().default(false).optional(),
   isActive: z.boolean().default(true).optional(),
   createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+  updatedAt: z.date().optional(),
+  accessToken: z.string().optional(),
+  refreshToken: z.string().optional()
 });
 
 export type UserSpecs = z.infer<typeof userSchema>;

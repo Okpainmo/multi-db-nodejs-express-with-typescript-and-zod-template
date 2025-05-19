@@ -5,6 +5,8 @@ import { ObjectId } from 'mongodb';
 import * as z from 'zod';
 import log from '../../../utils/logger.js';
 import { getUserProfile } from '../controllers/user.getUserProfile.controller.js';
+import sessionsMiddleware from '../../../middlewares/auth.sessions.middleware.js';
+import accessMiddleware from '../../../middlewares/auth.access.middleware.js';
 
 export const mongoParamsSchema = z.object({
   userId: z
@@ -70,6 +72,6 @@ export type CombinedParamsSpecs = z.infer<typeof combinedParamsSchema>;
 const router = express.Router();
 
 // routes
-router.route('/profile/:userId').get(validateData({ params: combinedParamsSchema }), getUserProfile);
+router.route('/profile/:userId').get(validateData({ params: combinedParamsSchema }), sessionsMiddleware, accessMiddleware, getUserProfile);
 
 export default router;

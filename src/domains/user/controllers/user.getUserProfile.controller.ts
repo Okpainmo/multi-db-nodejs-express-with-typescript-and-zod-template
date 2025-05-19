@@ -8,7 +8,7 @@
 import type { Request, Response } from 'express';
 import type { UserSpecs } from '../schema/user.schema.js';
 // import { findUser__mongo } from '../lib/mongo__user.findUser.service.js';
-import { findUser__postgres } from '../lib/postgres__user.findUser.service.js';
+// import { findUser__postgres } from '../lib/postgres__user.findUser.service.js';
 import { errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
 
 // type UserProfileResponse = Pick<UserSpecs, '_id' | 'name' | 'email' | 'isAdmin' | 'isActive' | 'createdAt' | 'updatedAt'>;
@@ -26,9 +26,7 @@ type ResponseSpecs = {
 export const getUserProfile = async (req: Request<{ userId: string | number }, ResponseSpecs>, res: Response<ResponseSpecs>) => {
   try {
     const { userId } = req.params;
-
-    // const user = await findUser__mongo({ userId });
-    const user = await findUser__postgres({ userId: Number(userId) });
+    const user = req?.userData?.user as UserSpecs;
 
     if (!user) {
       res.status(404).json({
@@ -46,7 +44,9 @@ export const getUserProfile = async (req: Request<{ userId: string | number }, R
       isAdmin: user.isAdmin,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      accessToken: req.userData?.newUserAccessToken,
+      refreshToken: req.userData?.newUserRefreshToken
     };
 
     res.status(200).json({

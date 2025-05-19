@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
         minlength: 2,
         maxlength: 100
     },
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true,
         validate: {
             validator: (val) => !val.includes(' '),
@@ -17,8 +17,16 @@ const userSchema = new mongoose.Schema({
         }
     },
     password: {
-        type: String,
-        required: true
+        type: String
+        // required: true
+    },
+    accessToken: {
+        type: String
+        // required: true
+    },
+    refreshToken: {
+        type: String
+        // required: true
     },
     isAdmin: {
         type: Boolean,

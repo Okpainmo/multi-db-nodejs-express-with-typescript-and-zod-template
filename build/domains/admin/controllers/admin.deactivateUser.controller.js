@@ -5,32 +5,26 @@
  * @route /api/v1/admin/users/:id/deactivate
  * @access Admin
  */
-import { errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
+import { errorHandler__404, errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
 // import { updateUser__mongo } from '../../user/lib/mongo__user.updateUser.service.js';
 import { updateUser__postgres } from '../../user/lib/postgres__user.updateUser.service.js';
-// import { findUser__mongo } from '../../user/lib/mongo__user.findUser.service.js';
-import { findUser__postgres } from '../../user/lib/postgres__user.findUser.service.js';
 export const deactivateUser = async (req, res) => {
     try {
         const { userId } = req.params;
+        // log.info(req.user);
         // const user = await findUser__mongo({ userId });
-        const user = await findUser__postgres({ userId: Number(userId) });
+        const user = req?.userData?.user;
         if (!user) {
-            res.status(404).json({
-                responseMessage: `User with id: '${userId}' not found or does not exist`,
-                error: 'NOT_FOUND'
-            });
+            errorHandler__404(`User with id: '${userId}' not found or does not exist`, res);
             return;
         }
         // if (!user.isAdmin) {
-        //   res.status(403).json({
-        //     responseMessage: 'You are not allowed to perform this action',
-        //     error: 'FORBIDDEN'
-        //   });
+        // errorHandler__403('You are not allowed to perform this action' ,res)
+        // return
         // }
         // if (user && user.isAdmin) {
         if (user) {
-            const deactivatedUser = await updateUser__postgres({ userId: Number(userId), requestBody: { ...user, isActive: false } });
+            const deactivatedUser = await updateUser__postgres({ userId: Number(userId), requestBody: { isActive: false } });
             //   const deactivatedUser = await updateUser__mongo({ userId: userId, requestBody: { isActive: false } });
             if (deactivatedUser) {
                 res.status(200).json({
@@ -44,7 +38,9 @@ export const deactivateUser = async (req, res) => {
                             isAdmin: deactivatedUser.isAdmin,
                             isActive: deactivatedUser.isActive,
                             createdAt: deactivatedUser.createdAt,
-                            updatedAt: deactivatedUser.updatedAt
+                            updatedAt: deactivatedUser.updatedAt,
+                            accessToken: req.userData?.newUserAccessToken,
+                            refreshToken: req.userData?.newUserRefreshToken
                         }
                     }
                 });

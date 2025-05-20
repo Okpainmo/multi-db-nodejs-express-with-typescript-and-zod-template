@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-// import type { UserSpecs } from '../domains/user/schema/user.schema.js';
 import bcrypt from 'bcryptjs';
-// import type { SignOptions } from 'jsonwebtoken';
 export const generateTokens = async ({ tokenType, user }) => {
     const jwtSecret = process.env.JWT_SECRET;
     const accessExpiry = process.env.JWT_ACCESS_EXPIRATION_TIME || '1h';
@@ -18,7 +16,7 @@ export const generateTokens = async ({ tokenType, user }) => {
         const salt = await bcrypt.genSalt(14);
         const authCookiePart_A = await bcrypt.hash(user.email, salt);
         const authCookiePart_B = jwtSecret;
-        const authCookie = `MultiDB_NodeExpressTypescript_Template__${authCookiePart_A}_${authCookiePart_B}`;
+        const authCookie = `MultiDB_NodeExpressTypescript_Template_____${authCookiePart_A}_____${authCookiePart_B}`;
         const tokens = {
             authCookie,
             accessToken,

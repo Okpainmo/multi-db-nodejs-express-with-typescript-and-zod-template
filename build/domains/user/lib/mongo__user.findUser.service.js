@@ -6,13 +6,19 @@ export async function findUser__mongo({ userId, email }) {
             const user = await userModel.findOne({
                 email
             });
-            return user;
+            if (user) {
+                user.id = user._id; // set '_id' to 'id', to ensure uniform use of 'id' for all DB across the project
+                return user;
+            }
         }
         if (userId) {
             const user = await userModel.findOne({
                 _id: userId
             });
-            return user;
+            if (user) {
+                user.id = user._id; // set '_id' to 'id', to ensure uniform use of 'id' for all DB across the project
+                return user;
+            }
         }
         return;
     }

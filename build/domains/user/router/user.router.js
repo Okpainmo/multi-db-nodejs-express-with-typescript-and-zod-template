@@ -55,5 +55,5 @@ export const combinedParamsSchema = z.object({
 // express router init
 const router = express.Router();
 // routes
-router.route('/profile/:userId').get(validateData({ params: combinedParamsSchema }), sessionsMiddleware, accessMiddleware, getUserProfile);
+router.route('/:userId').get(validateData({ params: combinedParamsSchema }), sessionsMiddleware, accessMiddleware, getUserProfile);
 export default router;

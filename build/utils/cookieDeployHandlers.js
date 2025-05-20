@@ -1,3 +1,4 @@
+// import log from './logger.js';
 export const deployAuthCookie = ({ authCookie }, res) => {
     res.cookie(`MultiDB_NodeExpressTypescript_Template__Auth_Cookie`, authCookie, {
         // domain: "localhost",
@@ -7,5 +8,5 @@ export const deployAuthCookie = ({ authCookie }, res) => {
         sameSite: 'strict', // prevents CSRF attacks
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     });
-    // log.info(`authCookie: '${authCookie}' \n \n auth cookie deployed successfully`);
+    // log.info(`AuthCookie: '${authCookie}' \n \n Auth cookie deployed successfully`);
 };

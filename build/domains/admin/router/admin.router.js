@@ -56,5 +56,5 @@ export const combinedParamsSchema = z.object({
     })
 });
 const router = Router();
-router.patch('/profile/:userId', validateData({ params: combinedParamsSchema, body: userSchema }), sessionsMiddleware, accessMiddleware, deactivateUser);
+router.patch('/deactivate-user/:userId', validateData({ params: combinedParamsSchema, body: userSchema }), sessionsMiddleware, accessMiddleware, deactivateUser);
 export default router;

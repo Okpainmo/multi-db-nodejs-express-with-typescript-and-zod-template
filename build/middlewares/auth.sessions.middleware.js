@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
-// import { TokenExpiredError } from 'jsonwebtoken';
 import {} from 'express';
-import { errorHandler__401, errorHandler__403, errorHandler__500 } from '../utils/errorHandlers/codedErrorHandlers.js';
+import { errorHandler__401, errorHandler__403, errorHandler__404, errorHandler__500 } from '../utils/errorHandlers/codedErrorHandlers.js';
 // import { findUser__mongo } from '../domains/user/lib/mongo__user.findUser.service.js';
 import { findUser__postgres } from '../domains/user/lib/postgres__user.findUser.service.js';
-// import { updateUser__mongo } from '../domains/user/lib/mongo__user.updateUser.service.js';
 import log from '../utils/logger.js';
 const sessionsMiddleware = async (req, res, next) => {
     const requestHeaders = req.headers;
@@ -12,14 +10,32 @@ const sessionsMiddleware = async (req, res, next) => {
     const jwtSecret = process.env.JWT_SECRET;
     if (!email || !authorization) {
         errorHandler__401('email or authorization header missing on request', res);
+        return;
     }
+    /*
+    checking for our initially deployed http-only cookie - the cookie is deployed on every request, and is
+    probably the most high-security enhancement feature of this whole API server. The request will be rejected
+    if it is not available.
+  
+    See the cookie-deployment utility setups here - `src => utils => cookieDeployHandler.ts`, and
+    `src => utils => generateTokens.ts`.
+    
+    Check out it's use inside the log-in controller, the sign-up/registration controller, and inside the
+    access middleware.
+  
+    Just like I love to implement, one of the user credentials(the email) is encrypted, and written into the cookie
+    (see `src => utils => generateTokens.ts`). As such, you should be able to extract that data, and perform extra
+    queries on the cookie - going further to validate it's authenticity - if you wish. I highly recommend doing that.
+    */
     if (!req.headers.cookie || !req.headers.cookie.includes('MultiDB_NodeExpressTypescript_Template')) {
-        errorHandler__401('user does not have access to this route, please re-authenticate', res);
+        errorHandler__401('request rejected, please re-authenticate', res);
+        return;
     }
     // const user = await findUser__mongo({ email });
     const user = await findUser__postgres({ email });
     if (user && !user.refreshToken) {
-        throw new Error('No refresh token found');
+        errorHandler__404('refresh token not found', res);
+        return;
     }
     // verify refresh/session token
     if (user && user.refreshToken) {
@@ -27,6 +43,7 @@ const sessionsMiddleware = async (req, res, next) => {
             const decodedSessionJWT = jwt.decode(user.refreshToken, { complete: true });
             if (!decodedSessionJWT || decodedSessionJWT.payload.userEmail !== user?.email) {
                 errorHandler__401('user credentials do not match', res);
+                return;
             }
             jwt.verify(user.refreshToken, jwtSecret);
             // ==================================================================================
@@ -34,7 +51,6 @@ const sessionsMiddleware = async (req, res, next) => {
             // ==================================================================================
             const sessionStatus = `USER SESSION IS ACTIVE`;
             log.info(sessionStatus);
-            // proceed to next middleware or route
             req.userData = { user: user };
             next();
         }
@@ -46,9 +62,11 @@ const sessionsMiddleware = async (req, res, next) => {
                 const sessionStatus = `EXPIRED SESSION: session terminated for '${user.email}'`;
                 log.info(sessionStatus);
                 errorHandler__403('user session is expired, please re-authenticate', res);
+                return;
             }
             else {
                 errorHandler__500(error, res);
+                return;
             }
         }
     }

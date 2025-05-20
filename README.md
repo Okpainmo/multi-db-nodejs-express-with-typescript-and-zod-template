@@ -4,11 +4,15 @@ This beautiful template, is a highly flexible, function-based and domain-driven-
 
 > In a way, it honestly feels like a crime to me, for anyone to still go about building systems with vanilla Javascript. This template is **fully typed 💪**.
 
-It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL).
+- It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL).
 
-**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. Subsequently, this README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
+- To provide usage guidance, the template contains build samples/demonstrations of how to use both databases.
 
-**Also, To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM**
+- Inside, you'll find beautiful and professionally crafted implementations that reveal how to practically build and ship top-class Node/Express APIs that are fully typed.
+
+- To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM.
+
+- Subsequently, this README file, will contain instructions, on how to fully unplug any of the database setups that you do not wish to use, while retaining the other.
 
 I created this with so much love(❤️) for myself, and engineering teams I lead/work on. Enough of bootstrapping a project from scratch whenever I need to set up one.
 
@@ -18,11 +22,11 @@ I created this with so much love(❤️) for myself, and engineering teams I lea
 
 As earlier stated, the template is DDD(domain driven development)-inspired. Hence, it comes with some default - carefully thought-out domains(`auth`, `user`, and `admin`).
 
-With the default domains, you'll get to see how the sample end-points are neatly and professionally implemented providing COMPLETE extraction of ALL DATABASE LOGIC into special database-service files. This in-turn, gives you the absolute flexibility to use any database of your choice, while keeping your project controllers, utility/helper functions, and other areas of your project completely un-affected or barely affected by resulting database changes.
+With these default domains, you'll get to see how sample end-points are neatly and professionally implemented, providing COMPLETE extraction of ALL DATABASE LOGIC into special database-service files. Consequently, resulting in you having the absolute flexibility to use any database of your choice, while keeping your project controllers, utility/helper functions, and other areas of your project completely un-affected or barely affected by resulting database changes.
 
-> P.S: While the current setup for the database service files and functions helps to clearly demonstrate how to professional engineer node/express projects in a domain-driven fashion - with proper logic separations, the double-implementations for both MongoDB and PostgreSQL will demand that you rename the database service files and functions by removing the database-specific prefix that are added on them. Kindly pardon that inconvenience, and make the best of how the name-separations help you grasp things a lot faster and easier.
+> P.S: While the current setup for the database service files and functions helps to clearly demonstrate how to professional engineer Node/Express projects in a domain-driven fashion - with proper logic separations, the double-implementations for both MongoDB and PostgreSQL will demand that you rename the database service files and functions by removing the database-specific prefix that are added on them. Kindly pardon that inconvenience, and make the best use of how the name-separations help you grasp things a lot faster and easier.
 >
-> A great alternative way to handle the database logic-separation, is to copy the implementation(functions) for all the databases into the same service file. All the functions should be named the same - e.g: 'findUser', then you simply comment out the one you do not intend to use.
+> A great alternative way to handle the database logic-separation, is to copy the implementations(functions) for both databases into the same service file. All the functions should be named the same - e.g: 'findUser', then you simply comment out the one you do not intend to use. With that set-up, you'll simply be able to use the other database by uncommenting it's function/implementation whenever necessary.
 
 ## Working Environment Support.
 
@@ -86,6 +90,12 @@ cd your-project-name
 
 ```bash
 npx lint-staged && npm run build
+```
+
+Also update the husky commit-msg script with this:
+
+```bash
+npx --no -- commitlint --edit
 ```
 
 2a. Proceed to install all dependencies and dev-dependencies.
@@ -186,12 +196,12 @@ CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A S
 
 ## Prisma-specific Guides.
 
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependencies-installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependencies-installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
 
 Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
 
 ```bash
-npx dotenv -e .env.development -- npx prisma migrate dev --name init
+npx dotenv -e .env.development -- npx prisma migrate dev --name migration-name
 ```
 
 And this for regenerating the Prisma client.
@@ -329,12 +339,14 @@ As earlier stated, the project comes with 3 different domains(the `auth` domain,
 
 # Want To Contribute?
 
-> This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
+This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
 
 To contribute successfully, simply create a Github issues that mentions me, and I'll be right with you to discuss your proposed/intended contribution.
 
+> Feel free to drop a star, fork/use, and share every contributions you possibly can.
+
 ## Wrapping up.
 
-> Just in case this repository ever gets to save your butt at work or while learning to build production-grade Node/Express with Typescript applications, and you wish to send an appreciation, [feel free to buy me a 'coffee'](https://paystack.com/pay/cagnddqmr2).
+> Just in case this repository ever gets to save your butt at work or while learning to build production-grade Node/Express with Typescript APIs, and you wish to send an appreciation, [feel free to buy me a 'coffee'](https://paystack.com/pay/cagnddqmr2).
 
 Cheers!!!

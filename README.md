@@ -176,17 +176,17 @@ docker run --name multi_db_nodejs_express_with_typescript_template__mongo_prod -
 
 > P.S: starting docker postgres and mongodb instances for `staging` and `prod` may not be necessary since you would want to use real(remotely provisioned) databases for those.
 
-**Option 2: update the `docker-compose.yaml` file on the project's root - using either the `docker-compose.postgres.template.yaml` or the `docker-compose.mongo.template.yaml` file(that are also available on the project root directory) as a guide - depending on the database type you wish to use. Then start all the databases at once**.
+**Option 2: update the `docker-compose.yaml` file on the project's root, using either the `docker-compose.postgres.template.yaml` or the `docker-compose.mongo.template.yaml` file as a guide - depending on the database type you wish to use. Then start all the databases at once**.
 
 ```bash
 docker compose up -d
 ```
 
-CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A SIMILAR, E.G MONGODBCOMPASS - FOR MONGODB), TO VIEW THEM.
+CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A SIMILAR, E.G MONGODB COMPASS - FOR MONGODB), TO VIEW THEM.
 
 ## Prisma-specific Guides.
 
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependency installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized/modular environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependencies-installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
 
 Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
 
@@ -202,7 +202,7 @@ npx dotenv -e .env.development -- npx prisma generate
 
 ## Building The Template With Docker.
 
-The template comes with a pre-configured `Dockerfile`, and a `.dockerignore`. With these, building the it into a Docker image becomes as easy as running the command below.
+The template comes with a pre-configured `Dockerfile`, and a `.dockerignore`. With these, building it into a Docker image becomes as easy as running the command below.
 
 ```bash
 docker build -t your-project-name .
@@ -214,7 +214,7 @@ E.g.
 docker build -t multi_db_nodejs_express_with_typescript_template__docker .
 ```
 
-> Instead of building the app/server directly with Docker(or making local installations and starting it manually - i.e. if you wish to make contributions), while still separately setting up the databases with docker-compose, you can set-up the docker-compose configuration to build the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute. **Ensure to use separate ports for the app/server running on docker, and the one running locally on your machine, so as to avoid conflicts**.
+> A great way to run the project, would be to set-up a docker-compose configuration that builds the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute.
 
 **I RECOMMEND SETTING UP DOCKER-COMPOSE TO BUILD THE PROJECT IMAGE, AND START EVERYTHING - ALL AT ONCE WITH A SINGLE COMMAND. SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
 
@@ -290,9 +290,9 @@ npx prettier . --write
 
 To solve that issue and more, **Lint-staged**, **Commitlint**, and **Husky** were used.
 
-Lint-staged with the help of Husky, enforces automatic Prettier formatting and ESlint linting respectively - **on staged files**. While Commitlint with the help of Husky, helps to enforce rules on commit messages - ensuring that collaborating team members write proper commits.
+Lint-staged with the help of Husky, enforces automatic Prettier formatting and ESlint linting respectively - **on staged files**. While Commitlint(also using Husky), helps to enforce rules on commit messages - Making sure that collaborating team members write proper commits.
 
-To run Lint-stages manually on currently staged files, use the command below:
+To run Lint-staged manually on currently staged files, use the command below:
 
 ```bash
 npx lint-staged
@@ -304,7 +304,7 @@ npx lint-staged
 
 ## Sample End-points.
 
-The project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep thing modular, domain-driven, neat, and professional.
+As earlier stated, the project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep thing modular, domain-driven, neat, and professional.
 
 ### Default Domains And Their End-points
 
@@ -329,7 +329,7 @@ The project comes with 3 different domains(the `auth` domain, the `user` domain,
 
 # Want To Contribute?
 
-> This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates and information. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
+> This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
 
 To contribute successfully, simply create a Github issues that mentions me, and I'll be right with you to discuss your proposed/intended contribution.
 

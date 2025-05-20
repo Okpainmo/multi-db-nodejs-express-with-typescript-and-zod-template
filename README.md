@@ -22,7 +22,7 @@ With the default domains, you'll get to see how the sample end-points are neatly
 
 > P.S: While the current setup for the database service files and functions helps to clearly demonstrate how to professional engineer node/express projects in a domain-driven fashion - with proper logic separations, the double-implementations for both MongoDB and PostgreSQL will demand that you rename the database service files and functions by removing the database-specific prefix that are added on them. Kindly pardon that inconvenience, and make the best of how the name-separations help you grasp things a lot faster and easier.
 >
-> A great alternative way to handle the database logic-separation, is to copy the implementation(functions) for all the databases into the same service file. All the functions should be named the same - e.g: 'findUser', them you simply comment out the one you do not intend to use.
+> A great alternative way to handle the database logic-separation, is to copy the implementation(functions) for all the databases into the same service file. All the functions should be named the same - e.g: 'findUser', then you simply comment out the one you do not intend to use.
 
 ## Working Environment Support.
 

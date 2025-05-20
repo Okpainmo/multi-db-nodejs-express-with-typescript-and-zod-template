@@ -226,7 +226,7 @@ docker build -t multi_db_nodejs_express_with_typescript_template__docker .
 
 > A great way to run the project, would be to set-up a docker-compose configuration that builds the app/server, and starts up the database(s) - all with one single command. This will provide much ease for team-mates(especially seniors and leads) who only wish to assess/test the development progress - and not to contribute.
 
-**I RECOMMEND SETTING UP DOCKER-COMPOSE TO BUILD THE PROJECT IMAGE, AND START EVERYTHING - ALL AT ONCE WITH A SINGLE COMMAND. SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
+**SEE `docker-compose.mongo.template.yaml` and `docker-compose.postgres.template.yaml` FOR HELP.**
 
 ```bash
 docker compose up -d
@@ -316,6 +316,8 @@ npx lint-staged
 
 As earlier stated, the project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep thing modular, domain-driven, neat, and professional.
 
+Below are the default domains and their sample end-point, which you can build on top of - if you wish.
+
 ### Default Domains And Their End-points
 
 1. Admin:
@@ -337,7 +339,7 @@ As earlier stated, the project comes with 3 different domains(the `auth` domain,
 
   1. `/api/v1/user/:userId`
 
-# Want To Contribute?
+## Want To Contribute?
 
 This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
 

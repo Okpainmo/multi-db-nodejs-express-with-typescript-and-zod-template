@@ -104,7 +104,7 @@ npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose node
 npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky @commitlint/cli @commitlint/config-conventional @types/bcrypt @types/jsonwebtoken --save-dev
 ```
 
-1c. Update your husky pre-commit script(`.husky` > `pre-commit`) - replace the content with this.
+2b. Update your husky pre-commit script(`.husky` > `pre-commit`) - replace the content with this.
 
 ```bash
 npx lint-staged && npm run build

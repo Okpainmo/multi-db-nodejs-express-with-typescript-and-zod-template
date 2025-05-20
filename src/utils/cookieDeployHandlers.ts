@@ -1,5 +1,5 @@
-// import log from './logger.js';
 import type { Response } from 'express';
+// import log from './logger.js';
 
 export const deployAuthCookie = ({ authCookie }: { authCookie: string }, res: Response) => {
   res.cookie(`MultiDB_NodeExpressTypescript_Template__Auth_Cookie`, authCookie, {
@@ -11,5 +11,5 @@ export const deployAuthCookie = ({ authCookie }: { authCookie: string }, res: Re
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   });
 
-  // log.info(`authCookie: '${authCookie}' \n \n auth cookie deployed successfully`);
+  // log.info(`AuthCookie: '${authCookie}' \n \n Auth cookie deployed successfully`);
 };

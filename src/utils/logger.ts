@@ -30,5 +30,6 @@ const log = pino({
 //
 // log.info('my message');
 // log.error(error.message);
+// ...
 
 export default log;

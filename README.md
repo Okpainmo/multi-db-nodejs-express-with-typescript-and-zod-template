@@ -6,7 +6,7 @@ This beautiful template, is a highly flexible, function-based and domain-driven-
 
 It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL).
 
-**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. When fully completed, this README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
+**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. Subsequently, this README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
 
 **Also, To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM**
 

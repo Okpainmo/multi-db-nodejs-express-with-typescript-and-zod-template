@@ -72,6 +72,6 @@ export type CombinedParamsSpecs = z.infer<typeof combinedParamsSchema>;
 const router = express.Router();
 
 // routes
-router.route('/profile/:userId').get(validateData({ params: combinedParamsSchema }), sessionsMiddleware, accessMiddleware, getUserProfile);
+router.route('/:userId').get(validateData({ params: combinedParamsSchema }), sessionsMiddleware, accessMiddleware, getUserProfile);
 
 export default router;

@@ -8,7 +8,11 @@ export async function findUser__mongo({ userId, email }: { userId?: string | num
         email
       });
 
-      return user;
+      if (user) {
+        user.id = user._id; // set '_id' to 'id', to ensure uniform use of 'id' for all DB across the project
+
+        return user;
+      }
     }
 
     if (userId) {
@@ -16,7 +20,11 @@ export async function findUser__mongo({ userId, email }: { userId?: string | num
         _id: userId
       });
 
-      return user;
+      if (user) {
+        user.id = user._id; // set '_id' to 'id', to ensure uniform use of 'id' for all DB across the project
+
+        return user;
+      }
     }
 
     return;

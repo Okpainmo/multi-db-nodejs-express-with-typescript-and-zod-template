@@ -1,17 +1,17 @@
 /**
  * @description Get the profile of any user
  * @request GET
- * @route /api/v1/user/get-user-profile/:userId
+ * @route /api/v1/user/:userId
  * @access Public
  */
 
 import type { Request, Response } from 'express';
 import type { UserSpecs } from '../schema/user.schema.js';
-// import { findUser__mongo } from '../lib/mongo__user.findUser.service.js';
-// import { findUser__postgres } from '../lib/postgres__user.findUser.service.js';
-import { errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
+// import { findUser__mongo } from '../../user/lib/mongo__user.findUser.service.js';
+import { findUser__postgres } from '../../user/lib/postgres__user.findUser.service.js';
+import { errorHandler__500, errorHandler__404 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
+// import log from '../../../utils/logger.js';
 
-// type UserProfileResponse = Pick<UserSpecs, '_id' | 'name' | 'email' | 'isAdmin' | 'isActive' | 'createdAt' | 'updatedAt'>;
 type UserProfileResponse = Pick<UserSpecs, 'id' | 'name' | 'email' | 'isAdmin' | 'isActive' | 'createdAt' | 'updatedAt'>;
 
 type ResponseSpecs = {
@@ -26,25 +26,24 @@ type ResponseSpecs = {
 export const getUserProfile = async (req: Request<{ userId: string | number }, ResponseSpecs>, res: Response<ResponseSpecs>) => {
   try {
     const { userId } = req.params;
-    const user = req?.userData?.user as UserSpecs;
 
-    if (!user) {
-      res.status(404).json({
-        responseMessage: `User with id: '${userId}' not found or does not exist`,
-        error: 'NOT_FOUND'
-      });
+    // const userToFind = await findUser__mongo({userId: userId as string });
+    const userToFind = await findUser__postgres({ userId: Number(userId) });
+
+    if (!userToFind) {
+      errorHandler__404(`user with id: '${userId}' not found or does not exist`, res);
+
       return;
     }
 
     const userProfile = {
-      // _id: user._id, # mongo
-      id: user.id,
-      name: user.name || '',
-      email: user.email,
-      isAdmin: user.isAdmin,
-      isActive: user.isActive,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      id: userToFind.id,
+      name: userToFind.name || '',
+      email: userToFind.email,
+      isAdmin: userToFind.isAdmin,
+      isActive: userToFind.isActive,
+      createdAt: userToFind.createdAt,
+      updatedAt: userToFind.updatedAt,
       accessToken: req.userData?.newUserAccessToken,
       refreshToken: req.userData?.newUserRefreshToken
     };
@@ -57,5 +56,7 @@ export const getUserProfile = async (req: Request<{ userId: string | number }, R
     });
   } catch (error) {
     errorHandler__500(error, res);
+
+    return;
   }
 };

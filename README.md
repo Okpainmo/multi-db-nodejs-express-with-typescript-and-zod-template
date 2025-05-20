@@ -196,22 +196,6 @@ docker compose up -d
 
 CONNECT YOUR DATABASES TO A POSTGRESQL GUI SOFTWARE/SERVICE - E.G PGADMIN(OR A SIMILAR, E.G MONGODB COMPASS - FOR MONGODB), TO VIEW THEM.
 
-## Prisma-specific Guides.
-
-Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependencies-installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
-
-Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
-
-```bash
-npx dotenv -e .env.development -- npx prisma migrate dev --name migration-name
-```
-
-And this for regenerating the Prisma client.
-
-```bash
-npx dotenv -e .env.development -- npx prisma generate
-```
-
 4. Start your main app/API server.
 
 ```bash
@@ -249,6 +233,22 @@ Your API server should start up and be accessible via port 5000 - `http://localh
 ```
 
 5. Take a deep breath, reward yourself with a coffee break, and return to hack on.
+
+## Prisma-specific Guides.
+
+Normally, Prisma interacts directly(by default) with a `.env` file that should be on the project root, hence would not know if to use a different(custom) environment variables file - as it actually should for this template. Since this template maintains a decentralized environmental variables file structure, the `dotenv-cli` package(a package that should already be installed at the project dependencies-installation stage if you followed the instructions properly), is used to specify which environmental variables file to use against prisma commands.
+
+Below is a sample command for running a migration against the PostgreSQL database in Prisma dev mode.
+
+```bash
+npx dotenv -e .env.development -- npx prisma migrate dev --name migration-name
+```
+
+And this for regenerating the Prisma client.
+
+```bash
+npx dotenv -e .env.development -- npx prisma generate
+```
 
 ## Building The Template With Docker.
 

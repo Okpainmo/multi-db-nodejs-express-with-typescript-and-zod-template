@@ -237,7 +237,7 @@ PostgreSQL connected successfully
 [15:37:35.000] INFO: Server is listening on port 5000...
 ```
 
-Your API should start up and be accessible via port 5000 - `http://localhost:5000`. On visiting it, a Pretty-print response like the one below indicate that you're started and all good to go.
+Your API server should start up and be accessible via port 5000 - `http://localhost:5000`. On visiting it, a Pretty-print response like the one below indicate that you're started and all good to go.
 
 ```json
 {

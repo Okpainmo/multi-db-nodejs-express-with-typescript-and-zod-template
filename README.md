@@ -116,7 +116,7 @@ Also update the husky commit-msg(`.husky` > `commit-msg`) script with this:
 npx --no -- commitlint --edit
 ```
 
-> P.S: No need to worry if the content of both files already match what you're supposed to add as instructed above.
+> P.S: No need to worry, if the content of both files already match what you're supposed to add as instructed above. If so, simply ignore updating them.
 
 2c. Pull in the mongodb and postgresql docker images
 

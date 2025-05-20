@@ -1,18 +1,28 @@
 # multi-db-nodejs-express-with-typescript-and-zod-template.
 
-This beautiful template, is a highly flexible and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template.
+This beautiful template, is a highly flexible, function-based and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template.
 
 > In a way, it honestly feels like a crime to me, for anyone to still go about building systems with vanilla Javascript. This template is **fully typed 💪**.
 
 It is set up to utilize Zod for data validation, and to support multiple-database types(MongoDB and PostgreSQL).
 
-**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. This README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
+**To provide usage guidance, the project will contain build samples/demonstrations of how to use both databases. When fully completed, this README file, will also contain instructions, on how to fully unplug any of the database setups that you do not wish to use.**
 
 **Also, To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM**
 
 I created this with so much love(❤️) for myself, and engineering teams I lead/work on. Enough of bootstrapping a project from scratch whenever I need to set up one.
 
 > Package manager is good ole **`NPM`**.
+
+## High Professional And Beautifully Implemented.
+
+As earlier stated, the template is DDD(domain driven development)-inspired. Hence, it comes with some default - carefully thought-out domains(`auth`, `user`, and `admin`).
+
+With the default domains, you'll get to see how the sample end-points are neatly and professionally implemented providing COMPLETE extraction of ALL DATABASE LOGIC into special database-service files. This in-turn, gives you the absolute flexibility to use any database of your choice, while keeping your project controllers, utility/helper functions, and other areas of your project completely un-affected or barely affected by resulting database changes.
+
+> P.S: While the current setup for the database service files and functions helps to clearly demonstrate how to professional engineer node/express projects in a domain-driven fashion - with proper logic separations, the double-implementations for both MongoDB and PostgreSQL will demand that you rename the database service files and functions by removing the database-specific prefix that are added on them. Kindly pardon that inconvenience, and make the best of how the name-separations help you grasp things a lot faster and easier.
+>
+> A great alternative way to handle the database logic-separation, is to copy the implementation(functions) for all the databases into the same service file. All the functions should be named the same - e.g: 'findUser', them you simply comment out the one you do not intend to use.
 
 ## Working Environment Support.
 
@@ -72,12 +82,17 @@ git clone your-project-url
 cd your-project-name
 ```
 
+1c. Update your husky pre-commit script(`.husky` > `pre-commit`) - replace the content with this.
+
+```bash
+npx lint-staged && npm run build
+```
+
 2a. Proceed to install all dependencies and dev-dependencies.
 
 **with current project versions**:
 
 ```bash
-
 npm install
 ```
 
@@ -289,24 +304,37 @@ npx lint-staged
 
 ## Sample End-points.
 
-...in progress.
+The project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep thing modular, domain-driven, neat, and professional.
 
-## Writing Tests.
+### Default Domains And Their End-points
 
-...in progress.
+1. Admin:
 
-## File Storage.
+- Endpoints:
 
-...in progress.
+  1. `/api/v1/admin/deactivate-user/:userId`
 
-## Sending Emails.
+2. Auth:
 
-...in progress.
+- Endpoints:
 
-## How To Select Your Preferred Database, and Fully Unplug the other.
+  1. `/api/v1/auth/log-in`
+  2. `/api/v1/auth/register`
 
-...in progress.
+2. User:
 
-## CI/CD Support With Jenkins.
+- Endpoints:
 
-...in progress.
+  1. `/api/v1/user/:userId`
+
+# Want To Contribute?
+
+> This project will be a progressive one. I and any other contributor(s), will continue to add relevant updates and information. This makes it very important that you always share details about any contribution you wish to make - before-hand, and avoid the needless stress of proceeding to work a contribution for a topic that is already in-progress.
+
+To contribute successfully, simply create a Github issues that mentions me, and I'll be right with you to discuss your proposed/intended contribution.
+
+## Wrapping up.
+
+> Just in case this repository ever gets to save your butt at work or while learning to build production-grade Node/Express with Typescript applications, and you wish to send an appreciation, [feel free to buy me a 'coffee'](https://paystack.com/pay/cagnddqmr2).
+
+Cheers!!!

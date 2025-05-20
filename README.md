@@ -324,20 +324,20 @@ Below are the default domains and their sample end-point, which you can build on
 
 - Endpoints:
 
-  1. `/api/v1/admin/deactivate-user/:userId`
+  1. De-activate user - `/api/v1/admin/deactivate-user/:userId`
 
 2. Auth:
 
 - Endpoints:
 
-  1. `/api/v1/auth/log-in`
-  2. `/api/v1/auth/register`
+  1. Log-in - `/api/v1/auth/log-in`
+  2. Register - `/api/v1/auth/register`
 
 2. User:
 
 - Endpoints:
 
-  1. `/api/v1/user/:userId`
+  1. Get user profile - `/api/v1/user/:userId`
 
 ## Want To Contribute?
 

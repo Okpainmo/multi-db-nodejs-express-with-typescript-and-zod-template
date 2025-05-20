@@ -86,18 +86,6 @@ git clone your-project-url
 cd your-project-name
 ```
 
-1c. Update your husky pre-commit script(`.husky` > `pre-commit`) - replace the content with this.
-
-```bash
-npx lint-staged && npm run build
-```
-
-Also update the husky commit-msg script with this:
-
-```bash
-npx --no -- commitlint --edit
-```
-
 2a. Proceed to install all dependencies and dev-dependencies.
 
 **with current project versions**:
@@ -116,7 +104,21 @@ npm install axios bcryptjs cookie-parser cors dayjs dotenv express mongoose node
 npm install @types/cookie-parser @types/cors @types/express @types/node @types/nodemailer @typescript-eslint/parser prisma eslint eslint-config-prettier eslint-plugin-prettier lint-staged pino-pretty prettier ts-node tsx typescript dotenv-cli @typescript-eslint/eslint-plugin @eslint/js husky @commitlint/cli @commitlint/config-conventional @types/bcrypt @types/jsonwebtoken --save-dev
 ```
 
-2b. Pull in the mongodb and postgresql docker images
+1c. Update your husky pre-commit script(`.husky` > `pre-commit`) - replace the content with this.
+
+```bash
+npx lint-staged && npm run build
+```
+
+Also update the husky commit-msg script with this:
+
+```bash
+npx --no -- commitlint --edit
+```
+
+> P.S: No need to worry if the content of both files already match what you're supposed to add as instructed above.
+
+2c. Pull in the mongodb and postgresql docker images
 
 ```bash
 docker pull mongodb/mongodb-community-server # mongodb
@@ -209,6 +211,44 @@ And this for regenerating the Prisma client.
 ```bash
 npx dotenv -e .env.development -- npx prisma generate
 ```
+
+4. Start your main app/API server.
+
+```bash
+npm run dev
+```
+
+If successfully connected, you will see a response like the one below inside your terminal.
+
+```bash
+[15:37:34.000] INFO: Establishing database connection...
+[15:37:35.000] INFO: ...................................
+Connected to: localhost
+Environment: development
+
+MongoDB connected successfully
+........................................................
+[15:37:35.000] INFO: ...................................
+Connected to: localhost
+Environment: development
+
+PostgreSQL connected successfully
+........................................................
+[15:37:35.000] INFO: Server is listening on port 5000...
+```
+
+Your API should start up and be accessible via port 5000 - `http://localhost:5000`. On visiting it, a Pretty-print response like the one below indicate that you're started and all good to go.
+
+```json
+{
+  "responseMessage": "Welcome to the Multi DB Node/Express... server",
+  "response": {
+    "apiStatus": "OK - Server is live"
+  }
+}
+```
+
+5. Take a deep breath, reward yourself with a coffee break, and return to hack on.
 
 ## Building The Template With Docker.
 

@@ -1,5 +1,4 @@
 // dependency imports
-
 import express from 'express';
 import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
@@ -19,15 +18,26 @@ import adminRouter from './domains/admin/router/admin.router.js';
 
 // dependency inits
 const app = express();
-
 dotenv.config();
-// app.use(cors());
+
+const allowedOrigins =
+  process.env.NODE_ENV === 'production' ? ['https://mydomain.com'] : ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'];
 
 app.use(
   cors({
     credentials: true,
-    origin: ['https://mydomain.com', 'http://localhost:3000'],
-    methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'email']
   })
 );
 
@@ -94,7 +104,5 @@ const start = async () => {
     }
   }
 };
-
-// serve
 
 start();

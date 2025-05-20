@@ -1,22 +1,20 @@
 /**
- * @description Register a new user
+ * @description Log in a new user
  * @request POST
- * @route /api/v1/auth/register
+ * @route /api/v1/auth/log-in
  * @access Public
  */
 
 import type { Request, Response } from 'express';
 import type { UserSpecs } from '../../user/schema/user.schema.js';
-// import { createUser__mongo } from '../lib/mongo__auth.createUser.service.js';
-import { createUser__postgres } from '../lib/postgres__auth.createUser.service.js';
 // import { findUser__mongo } from '../../user/lib/mongo__user.findUser.service.js';
 import { findUser__postgres } from '../../user/lib/postgres__user.findUser.service.js';
 // import { updateUser__mongo } from '../../user/lib/mongo__user.updateUser.service.js';
 import { updateUser__postgres } from '../../user/lib/postgres__user.updateUser.service.js';
-import { errorHandler__400, errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
-import { hashingHandler } from '../../../utils/hashingHandler.js';
+import { errorHandler__403, errorHandler__404, errorHandler__500 } from '../../../utils/errorHandlers/codedErrorHandlers.js';
 import { deployAuthCookie } from '../../../utils/cookieDeployHandlers.js';
 import { generateTokens } from '../../../utils/generateTokens.js';
+import { decryptHandler } from '../../../utils/decryptHandler.js';
 // import log from '../../../utils/logger.js';
 
 type UserProfileResponse = Pick<
@@ -25,7 +23,6 @@ type UserProfileResponse = Pick<
 >;
 
 type inSpecs = {
-  name: string;
   email: string;
   password: string;
 };
@@ -44,61 +41,60 @@ type AuthTokenSpecs = {
   refreshToken: string;
 };
 
-export const registerUser = async (req: Request<{}, ResponseSpecs, inSpecs>, res: Response<ResponseSpecs>) => {
+export const LogIn = async (req: Request<{}, ResponseSpecs, inSpecs>, res: Response<ResponseSpecs>) => {
   try {
     // const existingUser = await findUser__mongo({ email: req.body.email });
     const existingUser = await findUser__postgres({ email: req.body.email });
 
-    const hashedPassword = await hashingHandler({ stringToHash: req.body.password });
-
-    if (existingUser) {
-      errorHandler__400(`User with email: '${req.body.email}' already exists`, res);
+    if (!existingUser) {
+      errorHandler__404(`user with email: '${req.body.email}' not found or does not exist`, res);
 
       return;
     }
 
-    req.body.password = hashedPassword;
-    /* 
-    Always set the admin as below, to ensure that no user tricks the system and set a false admin.
-    You'll then need to create an end-point for setting admins.
-    */
-    const registeredUser = await createUser__postgres({ user: { ...req.body, isAdmin: false } });
-    // const registeredUser = await createUser__mongo({ user: { ...req.body, isAdmin: false } });
+    const hashedPassword = existingUser?.password as string;
+    const comparePasswords = await decryptHandler({ stringToCompare: req.body?.password, hashedString: hashedPassword });
 
-    if (registeredUser && registeredUser.email && registeredUser.id) {
-      const authTokens = await generateTokens({ tokenType: 'auth', user: { id: registeredUser.id, email: registeredUser.email } });
+    if (!comparePasswords) {
+      errorHandler__403('incorrect password: login unsuccessful', res);
+
+      return;
+    }
+
+    if (existingUser && existingUser.email && existingUser.id) {
+      // generate auth tokens
+      const authTokens = await generateTokens({ tokenType: 'auth', user: { id: existingUser.id, email: existingUser.email } });
 
       // authTokenSpecs from global.d.ts
       const { accessToken, refreshToken, authCookie } = authTokens as AuthTokenSpecs;
 
       if (accessToken && refreshToken && authCookie) {
         // await updateUser__mongo({
-        //   userId: registeredUser.id,
-        //   email: registeredUser.email,
+        //   email: existingUser.email,
         //   requestBody: { accessToken: accessToken, refreshToken: refreshToken }
         // });
 
         await updateUser__postgres({
-          email: registeredUser.email,
+          email: existingUser.email,
           requestBody: {
             accessToken: accessToken,
             refreshToken: refreshToken
           }
         });
 
-        deployAuthCookie({ authCookie: authCookie }, res);
+        deployAuthCookie({ authCookie }, res);
 
         res.status(201).json({
-          responseMessage: 'User registered successfully',
+          responseMessage: 'User logged in successfully',
           response: {
             userProfile: {
-              id: registeredUser.id,
-              name: registeredUser.name,
-              email: registeredUser.email,
-              isAdmin: registeredUser.isAdmin,
-              isActive: registeredUser.isActive,
-              createdAt: registeredUser.createdAt,
-              updatedAt: registeredUser.updatedAt,
+              id: existingUser.id,
+              name: existingUser.name,
+              email: existingUser.email,
+              isAdmin: existingUser.isAdmin,
+              isActive: existingUser.isActive,
+              createdAt: existingUser.createdAt,
+              updatedAt: existingUser.updatedAt,
               accessToken: accessToken,
               refreshToken: refreshToken
             }

@@ -15,7 +15,7 @@ export async function createUser__mongo(data: { user: UserSpecs }) {
 
     // Selectively return fields (excluding password)
     const user = {
-      _id: newUser._id,
+      id: newUser._id, // set '_id' to 'id', to ensure uniform use of 'id' for all DB across the project
       name: newUser.name,
       email: newUser.email,
       isAdmin: newUser.isAdmin,

@@ -74,7 +74,7 @@ export type CombinedParamsSpecs = z.infer<typeof combinedParamsSchema>;
 const router = Router();
 
 router.patch(
-  '/profile/:userId',
+  '/deactivate-user/:userId',
   validateData({ params: combinedParamsSchema, body: userSchema }),
   sessionsMiddleware,
   accessMiddleware,

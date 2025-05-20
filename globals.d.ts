@@ -7,17 +7,8 @@ declare module 'express' {
     userData?: {
       user: UserSpecs;
       sessionStatus?: string;
-      // renewedUserAccessToken?: string;
-      // renewedUserRefreshToken?: string;
       newUserAccessToken?: string;
       newUserRefreshToken?: string;
     };
   }
-
-  // interface Response {
-  //   response?: {
-  //     accessToken: string;
-  //     tokenStatus: string;
-  //   };
-  // }
 }

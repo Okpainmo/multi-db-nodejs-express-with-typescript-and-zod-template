@@ -110,7 +110,7 @@ npm install @types/cookie-parser @types/cors @types/express @types/node @types/n
 npx lint-staged && npm run build
 ```
 
-Also update the husky commit-msg script with this:
+Also update the husky commit-msg(`.husky` > `commit-msg`) script with this:
 
 ```bash
 npx --no -- commitlint --edit

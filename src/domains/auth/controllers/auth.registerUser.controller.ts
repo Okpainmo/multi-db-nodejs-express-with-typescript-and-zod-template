@@ -35,6 +35,8 @@ type ResponseSpecs = {
   responseMessage: string;
   response?: {
     userProfile: UserProfileResponse;
+    accessToken: string;
+    refreshToken: string;
   };
 };
 
@@ -98,10 +100,10 @@ export const registerUser = async (req: Request<{}, ResponseSpecs, inSpecs>, res
               isAdmin: registeredUser.isAdmin,
               isActive: registeredUser.isActive,
               createdAt: registeredUser.createdAt,
-              updatedAt: registeredUser.updatedAt,
-              accessToken: accessToken,
-              refreshToken: refreshToken
-            }
+              updatedAt: registeredUser.updatedAt
+            },
+            accessToken: accessToken,
+            refreshToken: refreshToken
           }
         });
       }

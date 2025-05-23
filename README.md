@@ -354,7 +354,7 @@ npx lint-staged
 
 ## Sample End-points.
 
-As earlier stated, the project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep thing modular, domain-driven, neat, and professional.
+As earlier stated, the project comes with 3 different domains(the `auth` domain, the `user` domain, and the `admin` domain) that help to demonstrate how to keep things modular, domain-driven, neat, and professional.
 
 Below are the default domains and their sample end-point, which you can build on top of - if you wish.
 

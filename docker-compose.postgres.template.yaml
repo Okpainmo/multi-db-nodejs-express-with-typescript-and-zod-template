@@ -13,8 +13,13 @@ services:
       POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_dev
     volumes:
       - pgdata_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your-user-name"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # PostgreSQL for Staging (for local testing only. Recommendation: Use a managed postgres service for staging and prod)
+  # PostgreSQL for Staging
   postgres_staging:
     image: postgres
     container_name: multi_db_nodejs_express_with_typescript_template__postgres_staging
@@ -28,8 +33,13 @@ services:
       POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_staging
     volumes:
       - pgdata_staging:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your-user-name"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # PostgreSQL for Production (for local testing only. Recommendation: Use a managed postgres service for staging and prod)
+  # PostgreSQL for Production
   postgres_prod:
     image: postgres
     container_name: multi_db_nodejs_express_with_typescript_template__postgres_prod
@@ -43,8 +53,13 @@ services:
       POSTGRES_DB: multi_db_nodejs_express_with_typescript_template__db_prod
     volumes:
       - pgdata_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your-user-name"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Main Node.js/Express Application
+  # Node.js/Express Application
   # app_server:
   #   build:
   #     context: .
@@ -53,9 +68,12 @@ services:
   #   ports:
   #     - "5000:5000"
   #   depends_on:
-  #     - postgres_dev
-  #     - postgres_staging
-  #     - postgres_prod
+  #     postgres_dev:
+  #       condition: service_healthy
+  #     postgres_staging:
+  #       condition: service_healthy
+  #     postgres_prod:
+  #       condition: service_healthy
   #   environment:
   #     POSTGRES_DEV_URI: postgres://your-user-name:your-password@postgres_dev:5432/multi_db_nodejs_express_with_typescript_template__db_dev
   #     POSTGRES_STAGING_URI: postgres://your-user-name:your-password@postgres_staging:5432/multi_db_nodejs_express_with_typescript_template__db_staging
@@ -63,7 +81,9 @@ services:
   #   volumes:
   #     - .:/app
   #   working_dir: /app
-  #   command: npm run dev # or your actual start command
+  #   command: npm run dev
+  #   networks:
+  #     - backend_net
 
 volumes:
   pgdata_dev:

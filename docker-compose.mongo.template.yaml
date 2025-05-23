@@ -13,6 +13,11 @@ services:
       MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_dev
     volumes:
       - mongo_data_dev:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # MongoDB for Staging
   mongodb_staging:
@@ -28,6 +33,11 @@ services:
       MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_staging
     volumes:
       - mongo_data_staging:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # MongoDB for Production
   mongodb_prod:
@@ -43,8 +53,13 @@ services:
       MONGO_INITDB_DATABASE: multi_db_nodejs_express_with_typescript_template__db_prod
     volumes:
       - mongo_data_prod:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Main Node.js/Express Application
+  # Node.js/Express App Server
   # app_server:
   #   build:
   #     context: .
@@ -53,18 +68,22 @@ services:
   #   ports:
   #     - "5000:5000"
   #   depends_on:
-  #     - mongodb_dev
-  #     - mongodb_staging
-  #     - mongodb_prod
+  #     mongodb_dev:
+  #       condition: service_healthy
+  #     mongodb_staging:
+  #       condition: service_healthy
+  #     mongodb_prod:
+  #       condition: service_healthy
   #   environment:
-  #     # These should match how your app reads env vars
   #     MONGO_DEV_URI: mongodb://your-user-name:your-password@mongodb_dev:27017/multi_db_nodejs_express_with_typescript_template__db_dev
   #     MONGO_STAGING_URI: mongodb://your-user-name:your-password@mongodb_staging:27017/multi_db_nodejs_express_with_typescript_template__db_staging
   #     MONGO_PROD_URI: mongodb://your-user-name:your-password@mongodb_prod:27017/multi_db_nodejs_express_with_typescript_template__db_prod
   #   volumes:
   #     - .:/app
   #   working_dir: /app
-  #   command: npm run dev # or whatever your dev/start script is
+  #   command: npm run dev
+  #   networks:
+  #     - backend_net
 
 volumes:
   mongo_data_dev:

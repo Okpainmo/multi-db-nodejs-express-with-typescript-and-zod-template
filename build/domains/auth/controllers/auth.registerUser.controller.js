@@ -58,10 +58,10 @@ export const registerUser = async (req, res) => {
                             isAdmin: registeredUser.isAdmin,
                             isActive: registeredUser.isActive,
                             createdAt: registeredUser.createdAt,
-                            updatedAt: registeredUser.updatedAt,
-                            accessToken: accessToken,
-                            refreshToken: refreshToken
-                        }
+                            updatedAt: registeredUser.updatedAt
+                        },
+                        accessToken: accessToken,
+                        refreshToken: refreshToken
                     }
                 });
             }

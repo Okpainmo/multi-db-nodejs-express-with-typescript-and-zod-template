@@ -23,16 +23,17 @@ export const getUserProfile = async (req, res) => {
             isAdmin: userToFind.isAdmin,
             isActive: userToFind.isActive,
             createdAt: userToFind.createdAt,
-            updatedAt: userToFind.updatedAt,
-            accessToken: req.userData?.newUserAccessToken,
-            refreshToken: req.userData?.newUserRefreshToken
+            updatedAt: userToFind.updatedAt
         };
-        res.status(200).json({
-            responseMessage: 'User profile retrieved successfully',
-            response: {
-                userProfile
-            }
-        });
+        if (req.userData?.newUserAccessToken && req?.userData?.newUserRefreshToken)
+            res.status(200).json({
+                responseMessage: 'User profile retrieved successfully',
+                response: {
+                    userProfile,
+                    accessToken: req.userData?.newUserAccessToken,
+                    refreshToken: req.userData?.newUserRefreshToken
+                }
+            });
     }
     catch (error) {
         errorHandler__500(error, res);

@@ -54,10 +54,10 @@ export const LogIn = async (req, res) => {
                             isAdmin: existingUser.isAdmin,
                             isActive: existingUser.isActive,
                             createdAt: existingUser.createdAt,
-                            updatedAt: existingUser.updatedAt,
-                            accessToken: accessToken,
-                            refreshToken: refreshToken
-                        }
+                            updatedAt: existingUser.updatedAt
+                        },
+                        accessToken: accessToken,
+                        refreshToken: refreshToken
                     }
                 });
             }

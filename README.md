@@ -81,7 +81,7 @@ NODE_ENV="development"
 1b. Create a project repository(using this as a template), and settle in to start working.
 
 ```bash
-git clone your-project-url
+git clone your-new-project-repo-url
 
 cd your-project-name
 ```

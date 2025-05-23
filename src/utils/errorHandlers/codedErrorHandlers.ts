@@ -49,7 +49,7 @@ export const errorHandler__404 = (errorMessage: any, res: Response) => {
 export const errorHandler__400 = (errorMessage: any, res: Response) => {
   log.error(`Bad Request Error: ${errorMessage}`);
 
-  res.status(404).json({
+  res.status(400).json({
     responseMessage: errorMessage,
     error: 'BAD REQUEST'
   });

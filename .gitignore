@@ -8,7 +8,8 @@
 .env.production
 .env.staging
 .env.template
-.env.*
+.env
+.env*
 
 # prima
 /generated

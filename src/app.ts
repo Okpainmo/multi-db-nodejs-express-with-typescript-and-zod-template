@@ -16,6 +16,9 @@ import userRouter from './domains/user/router/user.router.js';
 import authRouter from './domains/auth/router/auth.router.js';
 import adminRouter from './domains/admin/router/admin.router.js';
 
+// middleware imports
+import { requestDurationLogging } from './middlewares/requestDurationLogging.middleware.js';
+
 // dependency inits
 const app = express();
 dotenv.config();
@@ -58,6 +61,9 @@ if (process.env.NODE_ENV === 'production') {
   dotenv.config({ path: '.env.production' });
 }
 
+// Add request duration logging middleware
+app.use(requestDurationLogging);
+
 app.get('/', (_req: Request, res: Response) => {
   res.status(200).send({
     responseMessage: 'Welcome to the Multi DB Node/Express... server',
@@ -83,7 +89,7 @@ const start = async () => {
 
     if (mongoDbConnection) {
       log.info(
-        `...................................\nConnected to: ${mongoDbConnection?.connection.host}\nEnvironment: ${process.env.NODE_ENV}
+        `...................................\nConnected to: ${mongoDbConnection?.connection.host}\nEnvironment: ${process.env.DEPLOY_ENV ? process.env.DEPLOY_ENV : 'development'}
       \nMongoDB connected successfully \n........................................................`
       );
     }
@@ -92,7 +98,7 @@ const start = async () => {
     const parsedUrl = new URL(process.env.POSTGRES_DATABASE_URL as string);
 
     log.info(
-      `...................................\nConnected to: ${parsedUrl.hostname}\nEnvironment: ${process.env.NODE_ENV}
+      `...................................\nConnected to: ${parsedUrl.hostname}\nEnvironment: ${process.env.DEPLOY_ENV ? process.env.DEPLOY_ENV : 'development'}
         \nPostgreSQL connected successfully \n........................................................`
     );
 

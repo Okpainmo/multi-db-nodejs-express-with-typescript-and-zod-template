@@ -1,4 +1,4 @@
-This beautiful template, is a highly flexible, function-based and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template.
+This template, is a highly flexible, function-based and domain-driven-development(DDD)-inspired NodeJs/Express(with Typescript) template.
 
 > In a way, it honestly feels like a crime to me, for anyone to still go about building systems with vanilla Javascript. This template is **fully typed 💪**.
 
@@ -8,7 +8,7 @@ This beautiful template, is a highly flexible, function-based and domain-driven-
 
 - Inside, you'll find beautiful and professionally crafted implementations that reveal how to practically build and ship top-class Node/Express APIs that are fully typed.
 
-- To fully ensure separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM.
+- To ensure proper separation of concerns, MongoDB will use Mongoose as ODM, while PostgreSQL will use Prisma as ORM.
 
 - Subsequently, this README file, will contain instructions, on how to fully unplug any of the database setups that you do not wish to use, while retaining the other.
 
@@ -241,6 +241,17 @@ And this for regenerating the Prisma client.
 ```bash
 npx dotenv -e .env.development -- npx prisma generate
 ```
+
+## Transpiling From Typescript To Javasctipt.
+
+The project as stated earlier, is typescript-core. To build(transpile) your project into raw Javascript(with the same exact structure as the TS verison) - for deployment or for any other necessary purpose, 
+simply use the build command below.
+
+```bash
+npm run build
+```
+
+The above commands, transpiles all TS into JS for your project. A **"build"** folder will appear if the above command is successfully.
 
 ## Building The Template With Docker.
 

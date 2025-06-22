@@ -251,7 +251,7 @@ simply use the build command below.
 npm run build
 ```
 
-The above commands, transpiles all TS into JS for your project. A **"build"** folder will appear if the above command is successfully.
+The above commands, transpiles all TS into JS for your project. A **"build"** folder will appear if the command is successfully.
 
 ## Building The Template With Docker.
 

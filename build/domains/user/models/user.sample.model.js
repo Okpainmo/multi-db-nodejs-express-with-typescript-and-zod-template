@@ -1,2 +1,0 @@
-export {};
-// sample db model

@@ -64,6 +64,12 @@ const sessionsMiddleware = async (req: Request, res: Response<ResponseSpecs>, ne
   // const user = await findUser__mongo({ email });
   const user = await findUser__postgres({ email });
 
+  if (!user) {
+    errorHandler__404(`user with email: '${email}' not found or does not exist`, res);
+
+    return;
+  }
+
   if (user && !user.refreshToken) {
     errorHandler__404('refresh token not found', res);
 

@@ -41,6 +41,8 @@ With these default domains, you'll get to see how sample end-points are neatly a
 > 3. `.env.staging` - environmental variables file for the staging environment.
 > 4. `.env.production` - environmental variables file for the prod/production environment.
 
+**Before you generate a project with the template, endeavour to check step No. 3 in the [How To Use This Template](https://github.com/Okpainmo/multi-db-nodejs-express-with-typescript-and-zod-template?tab=readme-ov-file#how-to-use-this-template) section of this README file, and learn how to properly handle git-ignoring the environmental variables.** 
+
 ### Switching Between Working Environments.
 
 > Switching to a different environment is easy: **simply head to the CORE environment file(`.env`), and select your preferred environment by uncommenting it and commenting the others. Once that is done, the project should automatically switch to the selected environment**.
